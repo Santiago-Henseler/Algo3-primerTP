@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 public class tablero {
 
-    private GridPane tablero;
+    GridPane tablero;
 
     public GridPane getTablero(vector2D dim){
         this.tablero = new GridPane();
@@ -21,6 +21,9 @@ public class tablero {
         for(int i = 0; i < dim.getX(); i++){
             for(int j = 0; j < dim.getY(); j++){
                 Rectangle rectangle = new Rectangle(15, 15);
+
+                rectangle.setX(i);
+                rectangle.setY(j);
                 
                 if(i%2 == 0)
                     if(j%2 == 0)
@@ -38,13 +41,13 @@ public class tablero {
             }
         }
 
-        Rectangle rectangle = new Rectangle(10, 10);
-        rectangle.setStroke(Color.BLACK);
-        rectangle.setFill(Color.RED);
-
         this.tablero.setAlignment(Pos.CENTER);
 
         return this.tablero;
+    }
+
+    public void addPersonaje(Rectangle rectangle){
+        this.tablero.add(rectangle, (int)rectangle.getX(), (int)rectangle.getY());
     }
 
 }

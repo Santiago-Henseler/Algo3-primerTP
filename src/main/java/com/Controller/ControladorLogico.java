@@ -12,7 +12,7 @@ public class ControladorLogico {
     
     public ControladorLogico(vector2D vec){
         this.rango = vec;
-        this.jugador = new jugador(new vector2D(0, 0));
+        this.jugador = new jugador(new vector2D(9, 9));
         this.enemigos = new ArrayList<EntidadBase>();
     }
 
@@ -25,8 +25,8 @@ public class ControladorLogico {
     public boolean hacerJugada(vector2D movimiento){
         Boolean a = true;
 
-        jugador.movimiento(movimiento);
-        
+        jugador.movimiento(reescalarDistancia(movimiento));
+
         /*
         * movimientos de los enemigos
         for(EntidadBase i: enemigos){
@@ -34,6 +34,23 @@ public class ControladorLogico {
         }
          */
         return a;
+    }
+
+
+    private vector2D reescalarDistancia(vector2D movimiento){
+        
+        vector2D resta = vector2D.resta(movimiento, jugador.getPosicion());
+
+        int x = 0;
+        int y = 0;
+
+        if(resta.getX() > 0)x = 1;
+        else if(resta.getX() < 0)x = -1;
+        
+        if(resta.getY() < 0)y = 1;
+        else if(resta.getY() > 0)y = -1;
+
+        return new vector2D(x, y);
     }
 
     public boolean estadoJuego(){

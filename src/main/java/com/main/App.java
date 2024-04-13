@@ -9,7 +9,6 @@ import com.visual.visual;
 
 public class App extends Application {
 
-
     @Override
     public void start(Stage stage){
         vector2D rang = new vector2D(20, 20);

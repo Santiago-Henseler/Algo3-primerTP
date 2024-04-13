@@ -5,6 +5,8 @@ import com.visual.visual;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Rectangle;
 
 public class Controlador {
 
@@ -41,5 +43,21 @@ public class Controlador {
                 cl.hacerJugada(new vector2D(0, 0));
             }
         });
+
+        visual.onTableroClick(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                Object target =  event.getTarget();
+
+                if(target instanceof Rectangle){
+                    Rectangle rect = (Rectangle)target;
+
+                    if(cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY())))
+                        visual.moverPersonaje();
+                }
+            }
+        });
     }
+
 }
