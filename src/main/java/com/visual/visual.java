@@ -46,13 +46,13 @@ public class visual {
         escenario.show();
     }
 
-    public void moverPersonaje(){
+    public void moverPersonaje(vector2D mov){
 
         double posActualX = this.personaje.getTranslateX();
         double posActualY = this.personaje.getTranslateY();
 
-        this.personaje.setTranslateX(posActualX + 15);
-        this.personaje.setTranslateY(posActualY + 15);
+        this.personaje.setTranslateX(posActualX + (15*mov.getX()));
+        this.personaje.setTranslateY(posActualY + (15*mov.getY()));
     }
     
     public void onTpBtnClick(EventHandler<ActionEvent> handler) {
@@ -60,11 +60,11 @@ public class visual {
     }
 
     public void onWaitBtnClick(EventHandler<ActionEvent> handler) {
-        this.footer.waiButton.setOnAction(handler);
+        this.footer.waitButton.setOnAction(handler);
     }
 
     public void onSafeTpBtnClick(EventHandler<ActionEvent> handler) {
-        this.footer.waiButton.setOnAction(handler);
+        this.footer.tpSafeButton.setOnAction(handler);
     }
 
     public void onTableroClick(EventHandler<MouseEvent> handler) {

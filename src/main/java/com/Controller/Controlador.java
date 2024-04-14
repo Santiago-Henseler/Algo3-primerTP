@@ -18,13 +18,14 @@ public class Controlador {
 
     public void iniciarJuego(){
 
-        ControladorLogico cl = new ControladorLogico(new vector2D(0, 0));
+        ControladorLogico cl = new ControladorLogico(new vector2D(20, 20));
 
         visual.onTpBtnClick(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                
+                vector2D pos = cl.tp();
+                visual.moverPersonaje(pos);
             }
         });
 
@@ -32,7 +33,7 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                cl.hacerJugada(new vector2D(0, 0));
+                cl.esperarRobots();
             }
         });
 
@@ -40,7 +41,7 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                cl.hacerJugada(new vector2D(0, 0));
+                cl.safeTp();
             }
         });
 
@@ -53,8 +54,9 @@ public class Controlador {
                 if(target instanceof Rectangle){
                     Rectangle rect = (Rectangle)target;
 
-                    if(cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY())))
-                        visual.moverPersonaje();
+                    vector2D mov = cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
+
+                    visual.moverPersonaje(mov);
                 }
             }
         });

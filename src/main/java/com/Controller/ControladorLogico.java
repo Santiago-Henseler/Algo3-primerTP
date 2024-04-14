@@ -2,6 +2,7 @@ package com.Controller;
 
 import java.util.ArrayList;
 
+import com.model.model;
 import com.model.vector2D;
 
 public class ControladorLogico {
@@ -16,52 +17,34 @@ public class ControladorLogico {
         this.enemigos = new ArrayList<EntidadBase>();
     }
 
-    public void iniciarJuego(){
+    public vector2D hacerJugada(vector2D movimiento){
 
-        jugador.tp(rango);
+        vector2D nuevaPosicion = model.reescalarDistancia(movimiento, jugador.getPosicion());
 
+        jugador.movimiento(nuevaPosicion);
+
+        return nuevaPosicion;
     }
 
-    public boolean hacerJugada(vector2D movimiento){
-        Boolean a = true;
-
-        jugador.movimiento(reescalarDistancia(movimiento));
-
-        /*
-        * movimientos de los enemigos
-        for(EntidadBase i: enemigos){
-            i.movimiento(jugador.getPosicion());
-        }
-         */
-        return a;
+    public void esperarRobots(){
+        this.hacerJugada(this.jugador.getPosicion());
     }
 
+    public vector2D tp(){
+        return this.jugador.tp(rango);
+    }
 
-    private vector2D reescalarDistancia(vector2D movimiento){
-        
-        vector2D resta = vector2D.resta(movimiento, jugador.getPosicion());
+    public vector2D safeTp(){
 
-        int x = 0;
-        int y = 0;
+        if(!this.jugador.tieneSafeTp())
+            return null;
 
-        if(resta.getX() > 0)x = 1;
-        else if(resta.getX() < 0)x = -1;
-        
-        if(resta.getY() < 0)y = 1;
-        else if(resta.getY() > 0)y = -1;
-
-        return new vector2D(x, y);
+        this.jugador.tp(rango);
+        return null;
     }
 
     public boolean estadoJuego(){
         Boolean estado = jugador.getVida();
-
-        /*
-        for(EntidadBase i: enemigos){
-            if(!i.getVida())
-                estado = false;
-        }
-        */
 
         return estado;
     }

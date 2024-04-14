@@ -22,10 +22,16 @@ public class jugador extends EntidadBase{
         return true;
     }
 
-    public void tp(vector2D rango){
-        int x = (int) Math.floor(Math.random()*(rango.getX()+1));
-        int y = (int) Math.floor(Math.random()*(rango.getY()+1));
-        this.getPosicion().setVec(new vector2D(x, y));
+    public vector2D tp(vector2D rango){
+        int x = (int) Math.floor(Math.random()*(rango.getX()-2));
+        int y = (int) Math.floor(Math.random()*(rango.getY()-2));
+        vector2D nuevaPosicion = new vector2D(x, y);
+    
+        vector2D diferencia = vector2D.resta(nuevaPosicion, this.getPosicion());
+
+        this.getPosicion().setVec(nuevaPosicion);
+
+        return diferencia;
     }
 
 }
