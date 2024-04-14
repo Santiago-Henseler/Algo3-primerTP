@@ -15,19 +15,19 @@ public class visual {
 
     private Scene escena;
     private VBox fondo;
-    private menu menu;
+    private header header;
     private tablero tablero;
     private footer footer;
     private Rectangle personaje;
-   
 
     public visual(Stage escenario, vector2D dim){
 
-        this.menu = new menu();
+        this.header = new header();
         this.tablero = new tablero();
         this.footer = new footer();
 
-        this.fondo = new VBox(this.menu.getMenu());
+        this.fondo = new VBox(this.header.getHeader());
+        this.fondo.setStyle("-fx-background-color:#D6DBDF");
         this.fondo.getChildren().add(this.tablero.getTablero(dim));
         this.fondo.getChildren().add(this.footer.getfooter());
 
@@ -37,7 +37,7 @@ public class visual {
         this.personaje.setStroke(Color.BLACK);
         this.personaje.setFill(Color.RED);
 
-        this.tablero.addPersonaje(this.personaje);
+        this.tablero.addEntidad(this.personaje);
 
         this.escena = new Scene(this.fondo, 650, 480);
         escenario.setScene(this.escena);
@@ -53,8 +53,25 @@ public class visual {
 
         this.personaje.setTranslateX(posActualX + (15*mov.getX()));
         this.personaje.setTranslateY(posActualY + (15*mov.getY()));
+
     }
     
+    public void redimencionarTablero(vector2D rang){
+
+        this.fondo.getChildren().remove(1);
+        this.fondo.getChildren().add(1, this.tablero.getTablero(rang));
+        this.tablero.sacarEntidad(this.personaje);
+
+        this.personaje = new Rectangle(15, 15);
+        this.personaje.setX(rang.getX()/2 -1);
+        this.personaje.setY(rang.getY()/2 -1);
+        this.personaje.setStroke(Color.BLACK);
+        this.personaje.setFill(Color.YELLOW);
+
+        this.tablero.addEntidad(this.personaje);
+
+    }
+
     public void onTpBtnClick(EventHandler<ActionEvent> handler) {
         this.footer.tpButton.setOnAction(handler);
     }
@@ -69,6 +86,10 @@ public class visual {
 
     public void onTableroClick(EventHandler<MouseEvent> handler) {
         this.tablero.tablero.setOnMouseClicked(handler);
+    }
+
+    public void onOpcionesClick(EventHandler<MouseEvent> handler) {
+        this.header.opciones.setOnMouseClicked(handler);
     }
 
 }

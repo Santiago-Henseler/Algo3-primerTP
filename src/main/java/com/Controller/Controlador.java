@@ -16,16 +16,23 @@ public class Controlador {
         this.visual = visual;
     }
 
-    public void iniciarJuego(){
+    public void redimencionarJuego(vector2D rang){
 
-        ControladorLogico cl = new ControladorLogico(new vector2D(20, 20));
+        visual.redimencionarTablero(rang);
+
+        iniciarJuego(rang);
+
+    }
+
+    public void iniciarJuego(vector2D rang){
+
+        ControladorLogico cl = new ControladorLogico(rang);
 
         visual.onTpBtnClick(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                vector2D pos = cl.tp();
-                visual.moverPersonaje(pos);
+                visual.moverPersonaje(cl.tp());
             }
         });
 
@@ -41,7 +48,7 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                cl.safeTp();
+                
             }
         });
 
@@ -58,6 +65,14 @@ public class Controlador {
 
                     visual.moverPersonaje(mov);
                 }
+            }
+        });
+
+        visual.onOpcionesClick(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                redimencionarJuego(new vector2D(10, 10));
             }
         });
     }

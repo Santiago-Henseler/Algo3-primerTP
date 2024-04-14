@@ -46,8 +46,12 @@ public class tablero {
         return this.tablero;
     }
 
-    public void addPersonaje(Rectangle rectangle){
+    public void addEntidad(Rectangle rectangle){
         this.tablero.add(rectangle, (int)rectangle.getX(), (int)rectangle.getY());
+    }
+
+    public void sacarEntidad(Rectangle rectangle){
+        this.tablero.getChildren().remove(rectangle);
     }
 
 }

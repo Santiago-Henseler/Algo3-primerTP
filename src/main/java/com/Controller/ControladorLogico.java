@@ -11,9 +11,9 @@ public class ControladorLogico {
     private final ArrayList<EntidadBase> enemigos;
     private final jugador jugador;
     
-    public ControladorLogico(vector2D vec){
-        this.rango = vec;
-        this.jugador = new jugador(new vector2D(9, 9));
+    public ControladorLogico(vector2D rang){
+        this.rango = rang;
+        this.jugador = new jugador(new vector2D(rang.getY()/2 -1, rang.getY()/2 -1));
         this.enemigos = new ArrayList<EntidadBase>();
     }
 

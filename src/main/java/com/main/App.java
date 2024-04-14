@@ -14,7 +14,7 @@ public class App extends Application {
         vector2D rang = new vector2D(20, 20);
         visual visual = new visual(stage, rang);
         Controlador controlador = new Controlador(visual);
-        controlador.iniciarJuego();
+        controlador.iniciarJuego(rang);
     }
 
     public static void main(String[] args) {
