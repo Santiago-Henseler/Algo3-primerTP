@@ -1,5 +1,6 @@
 package com.Controller;
 
+import com.model.ControladorLogico;
 import com.model.vector2D;
 import com.visual.visual;
 
@@ -18,7 +19,7 @@ public class Controlador {
 
     public void redimencionarJuego(vector2D rang){
 
-        visual.redimencionarTablero(rang);
+        visual.redimencionarJuego(rang);
 
         iniciarJuego(rang);
 

@@ -1,9 +1,6 @@
-package com.Controller;
+package com.model;
 
 import java.util.ArrayList;
-
-import com.model.model;
-import com.model.vector2D;
 
 public class ControladorLogico {
     
@@ -19,7 +16,7 @@ public class ControladorLogico {
 
     public vector2D hacerJugada(vector2D movimiento){
 
-        vector2D nuevaPosicion = model.reescalarDistancia(movimiento, jugador.getPosicion());
+        vector2D nuevaPosicion = vector2D.reescalarDistancia(movimiento, jugador.getPosicion());
 
         jugador.movimiento(nuevaPosicion);
 
