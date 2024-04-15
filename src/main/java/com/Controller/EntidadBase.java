@@ -4,21 +4,18 @@ import com.model.vector2D;
 
 public abstract class EntidadBase {
 
-    private final vector2D posicion;
-    private boolean vivo;
-    
+    private vector2D posicion;
+
     public EntidadBase(vector2D posicion){
         this.posicion = posicion;
-        this.vivo = true;
     }
-
-    public void setVida(Boolean estado){this.vivo = estado;}  
-
-    public Boolean getVida(){return this.vivo;}
 
     public vector2D getPosicion(){return this.posicion;}
 
-    abstract void movimiento(vector2D vec);
+    public void setPosicion( vector2D posicion){ this.posicion = posicion; }
 
+    public abstract void movimiento( jugador jugador );
+
+    public abstract void colision( EntidadBase entidad );
 }
 

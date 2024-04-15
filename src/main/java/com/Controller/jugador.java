@@ -13,7 +13,6 @@ public class jugador extends EntidadBase{
 
     public Boolean tieneSafeTp(){return safeTp >=1;}
 
-    @Override
     public void movimiento(vector2D vec) {
         this.getPosicion().aniadir(vec);
     }

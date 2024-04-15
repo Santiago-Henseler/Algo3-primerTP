@@ -62,7 +62,6 @@ public class Controlador {
                     Rectangle rect = (Rectangle)target;
 
                     vector2D mov = cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
-
                     visual.moverPersonaje(mov);
                 }
             }
