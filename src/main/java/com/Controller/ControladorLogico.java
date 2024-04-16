@@ -9,7 +9,6 @@ import com.model.vector2D;
 public class ControladorLogico {
     
     private final vector2D rango;
-    private ArrayList<Robot> robots;
     private ArrayList<EntidadBase> enemigos;
     private final jugador jugador;
     
@@ -17,7 +16,6 @@ public class ControladorLogico {
         this.rango = rang;
         this.jugador = new jugador(new vector2D(rang.getY()/2 -1, rang.getY()/2 -1));
 
-        this.robots = new ArrayList<Robot>();
         this.enemigos = new ArrayList<EntidadBase>();
 
         Random rand = new Random();
@@ -33,7 +31,6 @@ public class ControladorLogico {
             }
 
             nuevo = new Robot1( new vector2D( x_robot, y_robot ) ) ;
-            this.robots.add( nuevo ) ;
             this.enemigos.add( nuevo );
         }
     }
@@ -43,7 +40,9 @@ public class ControladorLogico {
         vector2D nuevaPosicion = model.reescalarDistancia(movimiento, jugador.getPosicion());
         jugador.movimiento(nuevaPosicion);
         this.actualizarPosicionRobots();
-        nuevaPosicion = (! this.revisarColisionJugador()) ? nuevaPosicion : null ;
+
+        nuevaPosicion = ( ! this.revisarColisionJugador()) ? nuevaPosicion : null ;
+        revisarColisionEnemigos();
 
         return nuevaPosicion;
     }
@@ -53,36 +52,46 @@ public class ControladorLogico {
     }
 
     private void actualizarPosicionRobots(){
-        for ( int i = 0; i < robots.size(); i++ ){
-            robots.get(i).movimiento( this.jugador );
+        // metodo para actualizar posicion de enemigos
+        for ( int i = 0; i < enemigos.size(); i++ ){
+            enemigos.get(i).movimiento( this.jugador );
         }
     }
 
     private boolean revisarColisionJugador(){
+        // Revisa con todos los enemigos si hay colision
         int index = 0;
-        while ( ! revisarColision( enemigos.get(index) , this.jugador) && index < enemigos.size()){
+        while ( !jugador.colision( enemigos.get(index) ) && index < enemigos.size()){
             index ++;
         }
 
         return ( index == enemigos.size() );
     }
 
-    private boolean  revisarColision( EntidadBase p1, EntidadBase p2 ){
-        return p1.getPosicion().esIgual( p2.getPosicion() );
-    }
-
     private void  revisarColisionEnemigos(){
+        // Revisa enemigos que colisionan y elimina los que no, colocando fuego donde si
+        boolean eliminar_primero = false;
+        boolean eliminar_segundo = false;
+
         for ( int i = 0; i < enemigos.size(); i++){
             for ( int j = i + 1; j < enemigos.size(); j++){
-                if ( revisarColision( enemigos.get(i), enemigos.get(j))){
-                    if ( !(enemigos.get(i) instanceof fuego) ){
-                        enemigos.remove(i) ;
+                eliminar_primero = enemigos.get(i).colision(enemigos.get(j));
+                eliminar_segundo = enemigos.get(j).colision(enemigos.get(i));
 
-                        if ( !(enemigos.get(j - 1) instanceof fuego) ){
-                            enemigos.remove(j - 1);
-                        }
-                    }
+                if ( eliminar_primero && eliminar_segundo ){
+                    enemigos.add( new fuego( enemigos.get(i).getPosicion() )) ;
+                    enemigos.remove(i);
+                    enemigos.remove(j - 1 );
                 }
+                else if ( eliminar_primero ){
+                    enemigos.add( new fuego( enemigos.get(i).getPosicion() )) ;
+                    enemigos.remove(i);
+                }
+                else if (eliminar_segundo){
+                    enemigos.add( new fuego( enemigos.get(j).getPosicion() )) ;
+                    enemigos.remove(j);
+                }
+
             }
         }
     }

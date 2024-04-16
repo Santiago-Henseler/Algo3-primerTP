@@ -12,16 +12,11 @@ public abstract class Robot extends EntidadBase {
 
     public abstract void movimiento( jugador jugador );
 
-    public void colision( jugador jugador ){
-
-    }
-
-    public void colision( fuego fuego ){
-
-    }
-
-    public void colision( Robot robot ){
-
+    public boolean colision( EntidadBase entidad ){
+        if ( entidad instanceof jugador )
+            return false;
+        else
+            return super.getPosicion().esIgual( entidad.getPosicion() ) ;
     }
 
 }

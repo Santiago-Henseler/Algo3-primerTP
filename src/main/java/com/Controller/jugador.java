@@ -2,7 +2,7 @@ package com.Controller;
 
 import com.model.vector2D;
 
-public class jugador extends EntidadBase{
+public class jugador extends EntidadBase {
 
     private int safeTp;
 
@@ -12,6 +12,8 @@ public class jugador extends EntidadBase{
     }
 
     public Boolean tieneSafeTp(){return safeTp >=1;}
+
+    public void movimiento( jugador jugador ){ ; }
 
     public void movimiento(vector2D vec) {
         this.getPosicion().aniadir(vec);
@@ -31,6 +33,11 @@ public class jugador extends EntidadBase{
         this.getPosicion().setVec(nuevaPosicion);
 
         return diferencia;
+    }
+
+    public boolean colision( EntidadBase entidad ){
+        // Se exceptua el choque jugador con jugador, es un juego en solitario
+        return super.getPosicion().esIgual( entidad.getPosicion() ) ;
     }
 
 }

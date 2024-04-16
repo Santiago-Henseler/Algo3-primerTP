@@ -10,5 +10,8 @@ public class fuego extends EntidadBase {
 
     public void movimiento(jugador jugador) { ; }
 
-    public void colision( EntidadBase entidadBase){ ; }
+    public boolean colision( EntidadBase entidad ){
+        return false;   // El fuego es inmortal !!!
+    }
+
 }

@@ -14,8 +14,8 @@ public abstract class EntidadBase {
 
     public void setPosicion( vector2D posicion){ this.posicion = posicion; }
 
-    public abstract void movimiento( jugador jugador );
+    abstract public boolean colision( EntidadBase entidad );
 
-    public abstract void colision( EntidadBase entidad );
+    abstract public void movimiento( jugador jugador );
 }
 

@@ -9,6 +9,10 @@ public class Robot1 extends Robot {
         super(posicion);
     }
 
+    public boolean colision( EntidadBase entidad ){
+        return super.colision(entidad);
+    }
+
     public void movimiento( jugador jugador ){
         vector2D delta = vector2D.resta( jugador.getPosicion(), this.getPosicion() );
 
@@ -31,9 +35,5 @@ public class Robot1 extends Robot {
         }
 
         super.setPosicion( new vector2D( aniadir_x, aniadir_y ) );
-    }
-
-    public void colision( EntidadBase entidadBase ){
-        super.colision( entidadBase ) ;
     }
 }
