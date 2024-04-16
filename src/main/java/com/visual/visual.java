@@ -22,6 +22,8 @@ public class visual {
     private tablero tablero;
     private footer footer;
     private Rectangle personaje;
+    private Rectangle robot;
+    private Rectangle fuego;
 
     public visual(Stage escenario, vector2D dim){
 
@@ -39,6 +41,7 @@ public class visual {
         this.personaje.setY(9);
         this.personaje.setStroke(Color.BLACK);
         this.personaje.setFill(Color.RED);
+
 
 
         this.tablero.addEntidad(this.personaje);

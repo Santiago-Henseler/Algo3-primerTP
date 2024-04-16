@@ -9,7 +9,7 @@ import com.model.vector2D;
 public class ControladorLogico {
     
     private final vector2D rango;
-    private ArrayList<EntidadBase> enemigos;
+    private final ArrayList<EntidadBase> enemigos;
     private final jugador jugador;
     
     public ControladorLogico(vector2D rang){
@@ -20,7 +20,7 @@ public class ControladorLogico {
 
         Random rand = new Random();
         int x_robot; int y_robot;
-        for ( int i =0; i < 4 ; i++){
+        for ( int i =0; i < 0 ; i++){
             x_robot = 0;
             y_robot = 0;
 
@@ -58,12 +58,17 @@ public class ControladorLogico {
 
     private boolean revisarColisionJugador(){
         // Revisa con todos los enemigos si hay colision
-        int index = 0;
-        while ( !jugador.colision( enemigos.get(index) ) && index < enemigos.size()){
-            index ++;
+        if (enemigos.isEmpty()){
+            return false;
         }
+        else {
+            int index = 0;
+            while ( !jugador.colision( enemigos.get(index) ) && index < enemigos.size()){
+                index ++;
+            }
 
-        return ( index == enemigos.size() );
+            return ( index == enemigos.size() );
+        }
     }
 
     private void  revisarColisionEnemigos(){
