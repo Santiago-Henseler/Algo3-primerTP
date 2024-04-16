@@ -19,7 +19,7 @@ public class Controlador {
 
     public void redimencionarJuego(vector2D rang){
 
-        visual.redimencionarTablero(rang);
+        visual.redimencionarJuego(rang);
 
         iniciarJuego(rang);
 

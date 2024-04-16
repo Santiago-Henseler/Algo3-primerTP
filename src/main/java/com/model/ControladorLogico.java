@@ -28,6 +28,7 @@ public class ControladorLogico {
 
             this.enemigos.add( new Robot1( new vector2D( x_robot, y_robot ) ));
         }
+        this.enemigos = new ArrayList<EntidadBase>();
     }
 
     public vector2D hacerJugada(vector2D movimiento){
@@ -38,6 +39,10 @@ public class ControladorLogico {
 
         nuevaPosicion = ( ! this.revisarColisionJugador()) ? nuevaPosicion : null ;
         revisarColisionEnemigos();
+
+        vector2D nuevaPosicion = vector2D.reescalarDistancia(movimiento, jugador.getPosicion());
+
+        jugador.movimiento(nuevaPosicion);
 
         return nuevaPosicion;
     }

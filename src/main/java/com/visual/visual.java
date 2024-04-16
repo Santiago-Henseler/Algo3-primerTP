@@ -22,8 +22,11 @@ public class visual {
     private tablero tablero;
     private footer footer;
     private Rectangle personaje;
+    private Stage escenario;
 
-    public visual(Stage escenario, vector2D dim){
+    public visual(Stage escenario, vector2D rang){
+
+        this.escenario = escenario;
 
         this.header = new header();
         this.tablero = new tablero();
@@ -31,14 +34,10 @@ public class visual {
 
         this.fondo = new VBox(this.header.getHeader());
         this.fondo.setStyle("-fx-background-color:#D6DBDF");
-        this.fondo.getChildren().add(this.tablero.getTablero(dim));
+        this.fondo.getChildren().add(this.tablero.getTablero(rang));
         this.fondo.getChildren().add(this.footer.getfooter());
-
-        this.personaje = new Rectangle(15, 15);
-        this.personaje.setX(9);
-        this.personaje.setY(9);
-        this.personaje.setStroke(Color.BLACK);
-        this.personaje.setFill(Color.RED);
+    
+        this.personaje = new jugador(rang).getEntidad();
 
 
         this.tablero.addEntidad(this.personaje);
@@ -60,20 +59,17 @@ public class visual {
 
     }
     
-    public void redimencionarTablero(vector2D rang){
+    public void redimencionarJuego(vector2D rang){
 
         this.fondo.getChildren().remove(1);
         this.fondo.getChildren().add(1, this.tablero.getTablero(rang));
         this.tablero.sacarEntidad(this.personaje);
 
-        this.personaje = new Rectangle(15, 15);
-        this.personaje.setX(rang.getX()/2 -1);
-        this.personaje.setY(rang.getY()/2 -1);
-        this.personaje.setStroke(Color.BLACK);
-        this.personaje.setFill(Color.YELLOW);
+        this.personaje = new jugador(rang).getEntidad();
 
         this.tablero.addEntidad(this.personaje);
 
+        escenario.setHeight(350 + rang.getY()*10);
     }
 
     public void onTpBtnClick(EventHandler<ActionEvent> handler) {
