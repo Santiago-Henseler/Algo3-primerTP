@@ -19,7 +19,6 @@ public class ControladorLogico {
         this.enemigos = new ArrayList<EntidadBase>();
 
         Random rand = new Random();
-        Robot nuevo;
         int x_robot; int y_robot;
         for ( int i =0; i < 4 ; i++){
             x_robot = 0;
@@ -30,8 +29,7 @@ public class ControladorLogico {
                 y_robot = rand.nextInt( this.rango.getY() );
             }
 
-            nuevo = new Robot1( new vector2D( x_robot, y_robot ) ) ;
-            this.enemigos.add( nuevo );
+            this.enemigos.add( new Robot1( new vector2D( x_robot, y_robot ) ));
         }
     }
 
@@ -91,7 +89,6 @@ public class ControladorLogico {
                     enemigos.add( new fuego( enemigos.get(j).getPosicion() )) ;
                     enemigos.remove(j);
                 }
-
             }
         }
     }
