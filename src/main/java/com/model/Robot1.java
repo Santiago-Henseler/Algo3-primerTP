@@ -1,5 +1,4 @@
-package com.Controller;
-import com.model.vector2D;
+package com.model;
 
 import java.lang.Math;
 

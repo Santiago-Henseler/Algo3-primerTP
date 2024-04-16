@@ -1,5 +1,4 @@
-package com.Controller;
-import com.model.vector2D;
+package com.model;
 
 public abstract class Robot extends EntidadBase {
     Robot( vector2D posicion){

@@ -1,10 +1,7 @@
-package com.Controller;
+package com.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import com.model.model;
-import com.model.vector2D;
 
 public class ControladorLogico {
     
@@ -115,4 +112,11 @@ public class ControladorLogico {
         return true;
     }
 
+    public ArrayList<vector2D> posicionRobot(){
+        ArrayList<vector2D> resultado = new ArrayList<vector2D>();
+        for ( int i = 0; i < enemigos.size(); i++){
+            resultado.add( enemigos.get(i).getPosicion() );
+        }
+        return resultado;
+    }
 }

@@ -1,5 +1,6 @@
 package com.Controller;
 
+import com.model.ControladorLogico;
 import com.model.vector2D;
 import com.visual.visual;
 
@@ -62,9 +63,9 @@ public class Controlador {
                     Rectangle rect = (Rectangle)target;
 
                     vector2D mov = cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
-                    visual.moverPersonaje(mov);
-
-
+                    if (mov != null){
+                        visual.moverPersonaje(mov);
+                    }
                 }
             }
         });
@@ -77,5 +78,4 @@ public class Controlador {
             }
         });
     }
-
 }

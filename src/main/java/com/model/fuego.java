@@ -1,6 +1,4 @@
-package com.Controller;
-
-import com.model.vector2D;
+package com.model;
 
 public class fuego extends EntidadBase {
     fuego( vector2D posicion ){
