@@ -5,10 +5,10 @@ public class fuego extends EntidadBase {
         super(posicion);
     }
 
-    public void movimiento(jugador jugador) { ; }
+    public void movimiento(vector2D vec) { return; }
 
     public boolean colision( EntidadBase entidad ){
-        return false;   // El fuego es inmortal !!!
+        return false;
     }
 
 }

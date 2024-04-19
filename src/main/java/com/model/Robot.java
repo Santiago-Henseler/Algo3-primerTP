@@ -9,8 +9,6 @@ public abstract class Robot extends EntidadBase {
         super.setPosicion(posicion);
     }
 
-    public abstract void movimiento( jugador jugador );
-
     public boolean colision( EntidadBase entidad ){
         if ( entidad instanceof jugador )
             return false;

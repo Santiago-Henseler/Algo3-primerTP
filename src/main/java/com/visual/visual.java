@@ -60,24 +60,28 @@ public class visual {
 
     }
 
-    public void moverRobots(ArrayList<vector2D> posEnemigos){
+    public void setRobots(ArrayList<vector2D> posEnemigos){
         
         for(Rectangle i: this.enemigos){
             this.tablero.sacarEntidad(i);
         }
         
-        setRobots(posEnemigos);
+        setEnemigo(posEnemigos, Color.YELLOW);
     }
 
-    public void setRobots(ArrayList<vector2D> posEnemigos){
+    public void setFuego(ArrayList<vector2D> posFuego){
+        setEnemigo(posFuego, Color.BLACK);
+    }
+
+    public void setEnemigo(ArrayList<vector2D> posEnemigos, Color color){
         
         for(vector2D i: posEnemigos){
-            Rectangle enemigo = new entidad(i, Color.YELLOW).getEntidad();
+            Rectangle enemigo = new entidad(i, color).getEntidad();
             this.enemigos.add(enemigo);
             this.tablero.addEntidad(enemigo);
         }
     }
-    
+
     public void redimencionarJuego(vector2D rang){
 
         this.fondo.getChildren().remove(1);

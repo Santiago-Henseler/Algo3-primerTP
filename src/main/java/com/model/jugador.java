@@ -11,15 +11,9 @@ public class jugador extends EntidadBase {
 
     public Boolean tieneSafeTp(){return safeTp >=1;}
 
-    public void movimiento( jugador jugador ){ ; }
+    public void movimiento(vector2D vec) {this.getPosicion().setVec(vec); }
 
-    public void movimiento(vector2D vec) {
-        this.getPosicion().setVec(vec);
-    }
-
-    public Boolean safeTp(){
-        return true;
-    }
+    public void rmSafeTp(){this.safeTp--;}
 
     public vector2D tp(vector2D rango){
         int x = (int) Math.floor(Math.random()*(rango.getX()-2));

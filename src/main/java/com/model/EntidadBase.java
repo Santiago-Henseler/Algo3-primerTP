@@ -14,6 +14,6 @@ public abstract class EntidadBase {
 
     abstract public boolean colision( EntidadBase entidad );
 
-    abstract public void movimiento( jugador jugador );
+    abstract public void movimiento(vector2D posicion);
 }
 

@@ -12,8 +12,8 @@ public class Robot1 extends Robot {
         return super.colision(entidad);
     }
 
-    public void movimiento( jugador jugador ){
-        vector2D delta = vector2D.resta( jugador.getPosicion(), this.getPosicion() );
+    public void movimiento(vector2D posicion){
+        vector2D delta = vector2D.resta( posicion, this.getPosicion() );
 
         int aniadir_x; int aniadir_y;
         if ( delta.getX() == 0 ){

@@ -1,5 +1,7 @@
 package com.Controller;
 
+import java.util.Vector;
+
 import com.model.ControladorLogico;
 import com.model.vector2D;
 import com.visual.visual;
@@ -12,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 public class Controlador {
 
     private final visual visual;
+    private vector2D rang;
 
     public Controlador(visual visual){
         this.visual = visual;
@@ -19,28 +22,35 @@ public class Controlador {
 
     public void redimencionarJuego(vector2D rang){
 
-        visual.redimencionarJuego(rang);
-
-        iniciarJuego(rang);
-
+        this.rang = rang;
+        this.visual.redimencionarJuego(this.rang);
+    
+        iniciarJuego(this.rang);
     }
 
     public void iniciarJuego(vector2D rang){
+        
+        this.rang = rang;
 
         ControladorLogico cl = new ControladorLogico(rang);
 
-        visual.setRobots( cl.posicionEnemigos());
+        this.visual.setRobots(cl.getPosRobots());
 
-        setListener(cl);
+        this.setListeners(cl);
     }
 
-    private void setListener(ControladorLogico cl){
+    private void setListeners(ControladorLogico cl){
+
         visual.onTpBtnClick(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                visual.moverPersonaje(cl.tp());
-                visual.moverRobots( cl.posicionEnemigos());
+                vector2D mov = cl.tp();
+
+                if(cl.estadoJuego())
+                    actualizarVisual(cl, mov);
+                else
+                    iniciarJuego(rang);
             }
         });
 
@@ -49,7 +59,11 @@ public class Controlador {
             @Override
             public void handle(ActionEvent event) {
                 cl.esperarRobots();
-                visual.moverRobots( cl.posicionEnemigos());
+
+                if(cl.estadoJuego())
+                    actualizarVisual(cl, null);
+                else
+                    iniciarJuego(rang);
             }
         });
 
@@ -57,7 +71,12 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                
+                vector2D mov = cl.safeTp();
+
+                if(cl.estadoJuego())
+                    actualizarVisual(cl, mov);
+                else
+                    iniciarJuego(rang);
             }
         });
 
@@ -71,11 +90,11 @@ public class Controlador {
                     Rectangle rect = (Rectangle)target;
 
                     vector2D mov = cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
-                    
-                    if (mov != null){
-                        visual.moverPersonaje(mov);
-                        visual.moverRobots( cl.posicionEnemigos());
-                    }
+     
+                    if(cl.estadoJuego())
+                        actualizarVisual(cl, mov);
+                    else
+                        iniciarJuego(rang);
                 }
             }
         });
@@ -89,4 +108,11 @@ public class Controlador {
         });
     }
 
+    private void actualizarVisual(ControladorLogico cl, vector2D mov){
+
+        if(mov != null)
+            visual.moverPersonaje(mov);
+        visual.setRobots(cl.getPosRobots());
+        visual.setFuego(cl.getPosFuegos());
+    }
 }

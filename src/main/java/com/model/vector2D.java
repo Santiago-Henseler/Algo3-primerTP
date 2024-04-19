@@ -19,7 +19,7 @@ public class vector2D {
         this.y = vec.getY();
     }
 
-    public boolean esIgual(vector2D vec){return (vec.getX()-this.x)+(vec.getY()-this.y) == 0;}
+    public boolean esIgual(vector2D vec){return (vec.getX() == this.x) && (vec.getY() == this.y);}
 
     public vector2D distancia(vector2D vec){return vec;}
 
