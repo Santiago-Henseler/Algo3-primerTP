@@ -37,7 +37,7 @@ public class ControladorLogico {
         
         this.actualizarPosicionRobots();
 
-        //nuevaPosicion = ( ! this.revisarColisionJugador()) ? nuevaPosicion : null;
+        nuevaPosicion = (!this.revisarColisionJugador(this.jugador)) ? nuevaPosicion : null;
 
         return nuevaPosicion;
     }
@@ -84,19 +84,15 @@ public class ControladorLogico {
         this.hacerJugada(this.jugador.getPosicion());
     }
 
-    private boolean revisarColisionJugador(){
+    private boolean revisarColisionJugador(EntidadBase e){
         
-        // Revisa con todos los enemigos si hay colision
-        if (enemigos.isEmpty())
-            return false;
-        else {
-            int index = 0;
-            while ( !jugador.colision( enemigos.get(index)) && index < enemigos.size()){
-                index ++;
-            }
+        Boolean colisiona = false;
 
-            return index == enemigos.size();
+        for(EntidadBase i: enemigos){
+            colisiona = e.colision(i) ? true:colisiona;
         }
+
+        return colisiona;
     }
 
     public vector2D tp(){
