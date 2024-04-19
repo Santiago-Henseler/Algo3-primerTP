@@ -57,40 +57,32 @@ public class ControladorLogico {
         for ( int i = 0; i < enemigos.size(); i++ ){
             enemigos.get(i).movimiento( this.jugador );
         }
-        //this.revisarColisionEnemigos();
+        this.revisarColisionEnemigos();
     }
 
     private void revisarColisionEnemigos(){
         // Revisa enemigos que colisionan y elimina los que no, colocando fuego donde si
-        boolean eliminar_primero = false;
-        boolean eliminar_segundo = false;
 
-        for ( int i = 0; i < enemigos.size(); i++){
-            for ( int j = i + 1; j < enemigos.size(); j++){
-                eliminar_primero = enemigos.get(i).colision(enemigos.get(j));
-                eliminar_segundo = enemigos.get(j).colision(enemigos.get(i));
+        ArrayList<EntidadBase> eliminados = new ArrayList<EntidadBase>();
 
-                if ( eliminar_primero && eliminar_segundo ){
-                    enemigos.add( new fuego( enemigos.get(i).getPosicion() )) ;
-                    enemigos.remove(i);
-                    enemigos.remove(j - 1);
-                }
-                else if ( eliminar_primero ){
-                    enemigos.add( new fuego( enemigos.get(i).getPosicion() )) ;
-                    enemigos.remove(i);
-                }
-                else if (eliminar_segundo){
-                    enemigos.add( new fuego( enemigos.get(j).getPosicion() )) ;
-                    enemigos.remove(j);
+        for (EntidadBase i: this.enemigos){
+            for (EntidadBase j: this.enemigos){
+                if(j == i)
+                    continue;
+
+                if ( i.colision(j)){
+                    eliminados.add(i);
+                    eliminados.add(j);
+                    //enemigos.add( new fuego(i.getPosicion())) ;
                 }
             }
         }
+        enemigos.removeAll(eliminados);
     }
 
     public void esperarRobots(){
         this.hacerJugada(this.jugador.getPosicion());
     }
-
 
     private boolean revisarColisionJugador(){
         
@@ -128,11 +120,4 @@ public class ControladorLogico {
         return true;
     }
 
-    public ArrayList<vector2D> posicionRobot(){
-        ArrayList<vector2D> resultado = new ArrayList<vector2D>();
-        for ( int i = 0; i < enemigos.size(); i++){
-            resultado.add( enemigos.get(i).getPosicion() );
-        }
-        return resultado;
-    }
 }

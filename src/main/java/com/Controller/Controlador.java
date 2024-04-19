@@ -31,11 +31,16 @@ public class Controlador {
 
         visual.setRobots( cl.posicionEnemigos());
 
+        setListener(cl);
+    }
+
+    private void setListener(ControladorLogico cl){
         visual.onTpBtnClick(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 visual.moverPersonaje(cl.tp());
+                visual.moverRobots( cl.posicionEnemigos());
             }
         });
 
@@ -44,6 +49,7 @@ public class Controlador {
             @Override
             public void handle(ActionEvent event) {
                 cl.esperarRobots();
+                visual.moverRobots( cl.posicionEnemigos());
             }
         });
 
@@ -82,4 +88,5 @@ public class Controlador {
             }
         });
     }
+
 }
