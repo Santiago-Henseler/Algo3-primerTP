@@ -14,7 +14,7 @@ public class jugador extends EntidadBase {
     public void movimiento( jugador jugador ){ ; }
 
     public void movimiento(vector2D vec) {
-        this.getPosicion().aniadir(vec);
+        this.getPosicion().setVec(vec);
     }
 
     public Boolean safeTp(){
@@ -26,11 +26,9 @@ public class jugador extends EntidadBase {
         int y = (int) Math.floor(Math.random()*(rango.getY()-2));
         vector2D nuevaPosicion = new vector2D(x, y);
     
-        vector2D diferencia = vector2D.resta(nuevaPosicion, this.getPosicion());
-
         this.getPosicion().setVec(nuevaPosicion);
 
-        return diferencia;
+        return nuevaPosicion;
     }
 
     public boolean colision( EntidadBase entidad ){

@@ -29,6 +29,8 @@ public class Controlador {
 
         ControladorLogico cl = new ControladorLogico(rang);
 
+        visual.setRobots( cl.posicionEnemigos());
+
         visual.onTpBtnClick(new EventHandler<ActionEvent>() {
 
             @Override
@@ -63,8 +65,10 @@ public class Controlador {
                     Rectangle rect = (Rectangle)target;
 
                     vector2D mov = cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
+                    
                     if (mov != null){
                         visual.moverPersonaje(mov);
+                        visual.moverRobots( cl.posicionEnemigos());
                     }
                 }
             }

@@ -1,5 +1,7 @@
 package com.visual;
 
+import java.util.ArrayList;
+
 import com.model.vector2D;
 
 import javafx.event.ActionEvent;
@@ -10,9 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.w3c.dom.css.Rect;
 
-import java.util.ArrayList;
 
 public class visual {
 
@@ -23,6 +23,7 @@ public class visual {
     private footer footer;
     private Rectangle personaje;
     private Stage escenario;
+    private ArrayList<Rectangle> enemigos;
 
     public visual(Stage escenario, vector2D rang){
 
@@ -37,8 +38,8 @@ public class visual {
         this.fondo.getChildren().add(this.tablero.getTablero(rang));
         this.fondo.getChildren().add(this.footer.getfooter());
     
-        this.personaje = new jugador(rang).getEntidad();
-
+        this.personaje = new entidad(new vector2D(rang.getX()/2-1, rang.getY()/2-1), Color.RED).getEntidad();
+        this.enemigos = new ArrayList<Rectangle>();
 
         this.tablero.addEntidad(this.personaje);
 
@@ -51,23 +52,38 @@ public class visual {
 
     public void moverPersonaje(vector2D mov){
 
-        double posActualX = this.personaje.getTranslateX();
-        double posActualY = this.personaje.getTranslateY();
+        this.tablero.sacarEntidad(this.personaje);
 
-        this.personaje.setTranslateX(posActualX + (15*mov.getX()));
-        this.personaje.setTranslateY(posActualY + (15*mov.getY()));
+        this.personaje = new entidad(mov, Color.RED).getEntidad();
 
+        this.tablero.addEntidad(this.personaje);
+
+    }
+
+    public void moverRobots(ArrayList<vector2D> posEnemigos){
+        
+        for(Rectangle i: this.enemigos){
+            this.tablero.sacarEntidad(i);
+        }
+        
+        setRobots(posEnemigos);
+    }
+
+    public void setRobots(ArrayList<vector2D> posEnemigos){
+        
+        for(vector2D i: posEnemigos){
+            Rectangle enemigo = new entidad(i, Color.YELLOW).getEntidad();
+            this.enemigos.add(enemigo);
+            this.tablero.addEntidad(enemigo);
+        }
     }
     
     public void redimencionarJuego(vector2D rang){
 
         this.fondo.getChildren().remove(1);
         this.fondo.getChildren().add(1, this.tablero.getTablero(rang));
-        this.tablero.sacarEntidad(this.personaje);
-
-        this.personaje = new jugador(rang).getEntidad();
-
-        this.tablero.addEntidad(this.personaje);
+        
+        moverPersonaje(new vector2D(rang.getX()/2-1, rang.getY()/2-1));
 
         escenario.setHeight(350 + rang.getY()*10);
     }

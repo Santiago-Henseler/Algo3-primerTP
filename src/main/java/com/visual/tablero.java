@@ -2,6 +2,7 @@ package com.visual;
 
 import com.model.vector2D;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -17,6 +18,8 @@ public class tablero {
 
         this.tablero.setStyle("-fx-background-color:#E5E7E9");
         this.tablero.setPadding(new Insets(0, 0, 0, 0));
+        this.tablero.setHgap(0);
+        this.tablero.setVgap(0);
 
         for(int i = 0; i < dim.getX(); i++){
             for(int j = 0; j < dim.getY(); j++){
@@ -25,18 +28,9 @@ public class tablero {
                 rectangle.setX(i);
                 rectangle.setY(j);
                 
-                if(i%2 == 0)
-                    if(j%2 == 0)
-                        rectangle.setFill(Color.valueOf("#5499C7"));
-                    else
-                        rectangle.setFill(Color.valueOf("#D6EAF8"));
-                else
-                    if(j%2 != 0)
-                        rectangle.setFill(Color.valueOf("#5499C7"));
-                else
-                    rectangle.setFill(Color.valueOf("#D6EAF8"));
+                boolean determinarColor = (i + j) % 2 == 0;
+                rectangle.setFill(Color.valueOf(determinarColor ? "#5499C7" : "#D6EAF8"));
                
-
                 this.tablero.add(rectangle, i, j);
             }
         }
@@ -47,11 +41,12 @@ public class tablero {
     }
 
     public void addEntidad(Rectangle rectangle){
-        this.tablero.add(rectangle, (int)rectangle.getX(), (int)rectangle.getY());
+        GridPane.setConstraints(rectangle, (int)rectangle.getX(), (int)rectangle.getY());
+        this.tablero.getChildren().add(rectangle);
     }
 
     public void sacarEntidad(Rectangle rectangle){
         this.tablero.getChildren().remove(rectangle);
     }
-
+    
 }

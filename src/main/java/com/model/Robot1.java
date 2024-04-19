@@ -33,6 +33,6 @@ public class Robot1 extends Robot {
             else if ( angulo > 2.414 ){ aniadir_x = 0; }
         }
 
-        super.setPosicion( new vector2D( aniadir_x, aniadir_y ) );
+        super.setPosicion(vector2D.suma(new vector2D(aniadir_x, aniadir_y), this.getPosicion()));
     }
 }
