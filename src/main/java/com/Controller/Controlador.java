@@ -14,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 public class Controlador {
 
     private final visual visual;
+    private ControladorLogico logica;
     private vector2D rang;
 
     public Controlador(visual visual){
@@ -32,11 +33,11 @@ public class Controlador {
         
         this.rang = rang;
 
-        ControladorLogico cl = new ControladorLogico(rang);
+        this.logica = new ControladorLogico(rang);
 
-        this.visual.setRobots(cl.getPosRobots());
+        this.visual.setRobots(this.logica.getPosRobots());
 
-        this.setListeners(cl);
+        this.setListeners(this.logica);
     }
 
     private void setListeners(ControladorLogico cl){
@@ -48,7 +49,7 @@ public class Controlador {
                 vector2D mov = cl.tp();
 
                 if(cl.estadoJuego())
-                    actualizarVisual(cl, mov);
+                    actualizarVisual(mov);
                 else
                     iniciarJuego(rang);
             }
@@ -61,7 +62,7 @@ public class Controlador {
                 cl.esperarRobots();
 
                 if(cl.estadoJuego())
-                    actualizarVisual(cl, null);
+                    actualizarVisual(null);
                 else
                     iniciarJuego(rang);
             }
@@ -74,7 +75,7 @@ public class Controlador {
                 vector2D mov = cl.safeTp();
 
                 if(cl.estadoJuego())
-                    actualizarVisual(cl, mov);
+                    actualizarVisual(mov);
                 else
                     iniciarJuego(rang);
             }
@@ -92,7 +93,7 @@ public class Controlador {
                     vector2D mov = cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
      
                     if(cl.estadoJuego())
-                        actualizarVisual(cl, mov);
+                        actualizarVisual(mov);
                     else
                         iniciarJuego(rang);
                 }
@@ -108,11 +109,15 @@ public class Controlador {
         });
     }
 
-    private void actualizarVisual(ControladorLogico cl, vector2D mov){
+    private void actualizarVisual(vector2D mov){
 
-        if(mov != null)
+        if(mov != null){
             visual.moverPersonaje(mov);
-        visual.setRobots(cl.getPosRobots());
-        visual.setFuego(cl.getPosFuegos());
+        }
+        else{
+            // Termino el juego
+        }
+        visual.setRobots( this.logica.getPosRobots());
+        visual.setFuego( this.logica.getPosFuegos());
     }
 }

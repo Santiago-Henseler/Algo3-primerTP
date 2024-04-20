@@ -8,7 +8,7 @@ public class ControladorLogico {
     private final ArrayList<EntidadBase> enemigos;
     private final ArrayList<vector2D> fuegos;
     private final jugador jugador;
-    
+
     public ControladorLogico(vector2D rango){
         this.rango = rango;
         this.jugador = new jugador(new vector2D(rango.getY()/2 -1, rango.getY()/2 -1));
@@ -18,6 +18,8 @@ public class ControladorLogico {
 
         int x_robot; int y_robot;
         for ( int i = 0; i <  rango.getX()/2 ; i++){
+            // Generar posicion de robots. No chequea si hay un robot o jugador ahi
+            // Habria que programar para que cree robots de forma segura ...
             x_robot = (int) Math.round(Math.random()*(rango.getX()-1));
             y_robot = (int) Math.round(Math.random()*(rango.getY()-1));
             vector2D pos = new vector2D( x_robot, y_robot );
@@ -47,8 +49,11 @@ public class ControladorLogico {
 
         jugador.movimiento(nuevaPosicion);
 
+        // Logica del juego
         this.actualizarPosicionEnemigos();
-        this.revisarColision(this.jugador);
+        this.revisarColisionEnemigos();
+        if (this.revisarColisionJugador())
+            nuevaPosicion = null;
 
         return nuevaPosicion;
     }
@@ -84,7 +89,6 @@ public class ControladorLogico {
         for (EntidadBase i: this.enemigos){
             i.movimiento(this.jugador.getPosicion());
         }
-        this.revisarColisionEnemigos();
     }
 
     private void revisarColisionEnemigos(){
@@ -118,8 +122,21 @@ public class ControladorLogico {
         return colisiona;
     }
 
+    public boolean revisarColisionJugador(){
+        boolean colision = false;
+        int index = 0;
+
+        while ( !colision && ( index < this.enemigos.size() ) ){
+            colision = this.jugador.colision( this.enemigos.get(index));
+            if (!colision)
+                index++;
+        }
+
+        return colision;
+    }
+
     public boolean estadoJuego(){
-        return this.getPosRobots().size() > 0;
+        return ( !this.getPosRobots().isEmpty() && ( this.jugador != null )) ;
     }
 
 }

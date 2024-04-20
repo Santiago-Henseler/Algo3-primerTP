@@ -65,7 +65,6 @@ public class visual {
         for(Rectangle i: this.enemigos){
             this.tablero.sacarEntidad(i);
         }
-        
         setEnemigo(posEnemigos, Color.YELLOW);
     }
 

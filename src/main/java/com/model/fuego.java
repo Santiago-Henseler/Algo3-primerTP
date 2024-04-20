@@ -7,6 +7,10 @@ public class fuego extends EntidadBase {
 
     public void movimiento(vector2D vec) { return; }
 
+    /*
+    Pre: EntidadBase valida
+    Post: Verdadero si fuego muere en colision
+     */
     public boolean colision( EntidadBase entidad ){
         return false;
     }
