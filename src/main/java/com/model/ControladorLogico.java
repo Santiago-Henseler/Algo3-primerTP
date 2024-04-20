@@ -107,7 +107,7 @@ public class ControladorLogico {
             return this.safeTp();
 
         this.jugador.rmSafeTp();
-        this.actualizarPosicionEnemigos();
+//        this.actualizarPosicionEnemigos();
 
         return nuevaPos;
     }
