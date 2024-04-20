@@ -2,6 +2,7 @@ package com.visual;
 
 import java.util.ArrayList;
 
+import com.Controller.Controlador;
 import com.model.vector2D;
 
 import javafx.event.ActionEvent;
@@ -16,6 +17,11 @@ import javafx.stage.Stage;
 
 public class visual {
 
+    private final Color COLOR_PERSONAJE = Color.RED;
+    private final Color COLOR_ROBOT1 = Color.YELLOW;
+    private final Color COLOR_ROBOT2 = Color.ORANGE;
+    private final Color COLOR_FUEGO = Color.BLACK;
+
     private Scene escena;
     private VBox fondo;
     private header header;
@@ -24,6 +30,7 @@ public class visual {
     private Rectangle personaje;
     private Stage escenario;
     private ArrayList<Rectangle> enemigos;
+    private int[] clasificacion_enemigos;
 
     public visual(Stage escenario, vector2D rang){
 
@@ -37,8 +44,8 @@ public class visual {
         this.fondo.setStyle("-fx-background-color:#D6DBDF");
         this.fondo.getChildren().add(this.tablero.getTablero(rang));
         this.fondo.getChildren().add(this.footer.getfooter());
-    
-        this.personaje = new entidad(new vector2D(rang.getX()/2-1, rang.getY()/2-1), Color.RED).getEntidad();
+
+        this.personaje = new entidad(new vector2D(rang.getX()/2-1, rang.getY()/2-1), COLOR_PERSONAJE).getEntidad();
         this.enemigos = new ArrayList<Rectangle>();
 
         this.tablero.addEntidad(this.personaje);
@@ -54,28 +61,57 @@ public class visual {
 
         this.tablero.sacarEntidad(this.personaje);
 
-        this.personaje = new entidad(mov, Color.RED).getEntidad();
+        this.personaje = new entidad(mov, COLOR_PERSONAJE).getEntidad();
 
         this.tablero.addEntidad(this.personaje);
 
     }
 
-    public void setRobots(ArrayList<vector2D> posEnemigos){
-        
+    /*
+    Pre = Lista de posiciones y de enteros valida ( mismo largo e ints correctos )
+    Post= Carga personajes en tablero
+     */
+    public void setPersonajes( ArrayList<vector2D> pos_personajes, int[] clasificacion){
+        // Limpiar todos los personajes
         for(Rectangle i: this.enemigos){
             this.tablero.sacarEntidad(i);
         }
-        setEnemigo(posEnemigos, Color.YELLOW);
+
+        // Crear nuevos
+        Rectangle enemigo;
+        Color color = COLOR_FUEGO;
+        for( int i=0; i < pos_personajes.size(); i++ ){
+            if ( clasificacion[i] == Controlador.CODIGO_ROBOT_1){
+                color = COLOR_ROBOT1;
+            }
+            else if ( clasificacion[i] == Controlador.CODIGO_ROBOT_2){
+                color = COLOR_ROBOT2;
+            }
+            enemigo = new entidad(pos_personajes.get(i), color).getEntidad();
+            this.enemigos.add(enemigo);
+            this.tablero.addEntidad(enemigo);
+        }
+
+    }
+
+    public void setRobots(ArrayList<vector2D> posEnemigos){
+
+        for(Rectangle i: this.enemigos){
+            this.tablero.sacarEntidad(i);
+        }
+
+        setEnemigo(posEnemigos, COLOR_ROBOT1);
     }
 
     public void setFuego(ArrayList<vector2D> posFuego){
-        setEnemigo(posFuego, Color.BLACK);
+        setEnemigo(posFuego, COLOR_FUEGO);
     }
 
     public void setEnemigo(ArrayList<vector2D> posEnemigos, Color color){
-        
+        Rectangle enemigo;
+
         for(vector2D i: posEnemigos){
-            Rectangle enemigo = new entidad(i, color).getEntidad();
+            enemigo = new entidad(i, color).getEntidad();
             this.enemigos.add(enemigo);
             this.tablero.addEntidad(enemigo);
         }

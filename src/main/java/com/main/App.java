@@ -11,7 +11,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage){
-        vector2D rang = new vector2D(20, 20);
+        vector2D rang = new vector2D(Controlador.TAMANIO_HORIZONTAL, Controlador.TAMANIO_VERTICAL);
         visual visual = new visual(stage, rang);
         Controlador controlador = new Controlador(visual);
         controlador.iniciarJuego(rang);

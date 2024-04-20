@@ -13,6 +13,14 @@ import javafx.scene.shape.Rectangle;
 
 public class Controlador {
 
+    static public final int CODIGO_ROBOT_1 = 0;
+    static public final int CODIGO_ROBOT_2 = 1;
+    static public final int CODIGO_FUEGO = 2;
+    static public final double PROBABILIDAD_ROBOT_2 = 0.2;
+
+    static public final int TAMANIO_HORIZONTAL = 20;
+    static public final int TAMANIO_VERTICAL = 20;
+
     private final visual visual;
     private ControladorLogico logica;
     private vector2D rang;
@@ -35,7 +43,8 @@ public class Controlador {
 
         this.logica = new ControladorLogico(rang);
 
-        this.visual.setRobots(this.logica.getPosRobots());
+        this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
+//        this.visual.setRobots(this.logica.getPosRobots());
 
         this.setListeners(this.logica);
     }
@@ -59,10 +68,10 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                cl.esperarRobots();
+                vector2D mov = cl.esperarRobots();
 
                 if(cl.estadoJuego())
-                    actualizarVisual(null);
+                    actualizarVisual(mov);
                 else
                     iniciarJuego(rang);
             }
@@ -112,12 +121,14 @@ public class Controlador {
     private void actualizarVisual(vector2D mov){
 
         if(mov != null){
-            visual.moverPersonaje(mov);
+            this.visual.moverPersonaje(mov);
+            this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
+//            visual.setRobots( this.logica.getPosRobots());
+//            visual.setFuego( this.logica.getPosFuegos());
         }
         else{
-            // Termino el juego
+            // Termino el juego. Deberia haber un menu pero bueno que se yo viste
+            this.iniciarJuego(this.rang);
         }
-        visual.setRobots( this.logica.getPosRobots());
-        visual.setFuego( this.logica.getPosFuegos());
     }
 }

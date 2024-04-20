@@ -1,5 +1,7 @@
 package com.model;
 
+import com.Controller.Controlador;
+
 import java.util.ArrayList;
 
 public class ControladorLogico {
@@ -24,9 +26,37 @@ public class ControladorLogico {
             y_robot = (int) Math.round(Math.random()*(rango.getY()-1));
             vector2D pos = new vector2D( x_robot, y_robot );
 
-            this.enemigos.add(new Robot1(pos));
+            if ( Math.random() < Controlador.PROBABILIDAD_ROBOT_2 )
+                this.enemigos.add(new Robot2(pos));
+            else
+                this.enemigos.add(new Robot1(pos)) ;
         }
     }
+
+    public ArrayList<vector2D> getPosPersonajes(){
+        ArrayList<vector2D> posPersonajes = new ArrayList<vector2D>();
+
+        for(EntidadBase i: enemigos)
+            posPersonajes.add(i.getPosicion());
+
+        return posPersonajes;
+    }
+
+    public int[] getTipoPersonajes(){
+        int[] tipoPersonajes = new int[this.enemigos.size()];
+
+        for(int i = 0; i < this.enemigos.size(); i++){
+            if(this.enemigos.get(i) instanceof Robot1)
+                tipoPersonajes[i] = Controlador.CODIGO_ROBOT_1;
+            else if(this.enemigos.get(i) instanceof Robot2)
+                tipoPersonajes[i] = Controlador.CODIGO_ROBOT_2;
+            else if(this.enemigos.get(i) instanceof fuego)
+                tipoPersonajes[i] = Controlador.CODIGO_FUEGO;
+        }
+
+        return tipoPersonajes;
+    }
+
 
     public ArrayList<vector2D> getPosRobots(){
         ArrayList<vector2D> posRobots = new ArrayList<vector2D>();
@@ -43,10 +73,9 @@ public class ControladorLogico {
     }
 
     public vector2D hacerJugada(vector2D movimiento){
-
-        vector2D dReescalado = vector2D.reescalarDistancia(movimiento, jugador.getPosicion());
-        vector2D nuevaPosicion = vector2D.suma(jugador.getPosicion(), dReescalado);
-
+        // Mover jugador
+        vector2D dReescalado = vector2D.reescalarDistancia(movimiento, this.jugador.getPosicion());
+        vector2D nuevaPosicion = vector2D.suma(this.jugador.getPosicion(), dReescalado);
         jugador.movimiento(nuevaPosicion);
 
         // Logica del juego
@@ -58,8 +87,8 @@ public class ControladorLogico {
         return nuevaPosicion;
     }
 
-    public void esperarRobots(){
-        this.hacerJugada(this.jugador.getPosicion());
+    public vector2D esperarRobots(){
+        return this.hacerJugada(this.jugador.getPosicion());
     }
 
     public vector2D tp(){
@@ -72,7 +101,7 @@ public class ControladorLogico {
     public vector2D safeTp(){
 
         if(!this.jugador.tieneSafeTp())
-        return null;
+            return null;
 
         vector2D nuevaPos = this.jugador.tp(this.rango);
 
