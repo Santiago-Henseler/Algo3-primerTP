@@ -123,7 +123,6 @@ public class Controlador {
     private void actualizarVisual(vector2D mov){
 
         if(mov != null){
-            this.visual.moverPersonaje(mov);
             this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
 //            visual.setRobots( this.logica.getPosRobots());
 //            visual.setFuego( this.logica.getPosFuegos());

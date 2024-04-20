@@ -1,6 +1,7 @@
 package com.visual;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.Controller.Controlador;
 import com.model.vector2D;
@@ -27,10 +28,10 @@ public class visual {
     private header header;
     private tablero tablero;
     private footer footer;
-    private Rectangle personaje;
+//    private Rectangle personaje;
     private Stage escenario;
-    private ArrayList<Rectangle> enemigos;
-    private int[] clasificacion_enemigos;
+    private ArrayList<Rectangle> personajes;
+    private int[] clasificacion_personajes;
 
     public visual(Stage escenario, vector2D rang){
 
@@ -45,10 +46,8 @@ public class visual {
         this.fondo.getChildren().add(this.tablero.getTablero(rang));
         this.fondo.getChildren().add(this.footer.getfooter());
 
-        this.personaje = new entidad(new vector2D(rang.getX()/2-1, rang.getY()/2-1), COLOR_PERSONAJE).getEntidad();
-        this.enemigos = new ArrayList<Rectangle>();
-
-        this.tablero.addEntidad(this.personaje);
+//        this.personaje = new entidad(new vector2D(rang.getX()/2-1, rang.getY()/2-1), COLOR_PERSONAJE).getEntidad();
+        this.personajes = new ArrayList<Rectangle>();
 
         this.escena = new Scene(this.fondo, 650, 480);
         escenario.setScene(this.escena);
@@ -57,6 +56,7 @@ public class visual {
         escenario.show();
     }
 
+    /*
     public void moverPersonaje(vector2D mov){
 
         this.tablero.sacarEntidad(this.personaje);
@@ -66,6 +66,7 @@ public class visual {
         this.tablero.addEntidad(this.personaje);
 
     }
+    */
 
     /*
     Pre = Lista de posiciones y de enteros valida ( mismo largo e ints correctos )
@@ -73,13 +74,13 @@ public class visual {
      */
     public void setPersonajes( ArrayList<vector2D> pos_personajes, int[] clasificacion){
         // Limpiar todos los personajes
-        for(Rectangle i: this.enemigos){
+        for(Rectangle i: this.personajes){
             this.tablero.sacarEntidad(i);
         }
 
         // Crear nuevos
-        Rectangle enemigo;
-        Color color = COLOR_FUEGO;
+        Rectangle personaje;
+        Color color = COLOR_PERSONAJE;
         for( int i=0; i < pos_personajes.size(); i++ ){
             if ( clasificacion[i] == Controlador.CODIGO_ROBOT_1){
                 color = COLOR_ROBOT1;
@@ -87,16 +88,21 @@ public class visual {
             else if ( clasificacion[i] == Controlador.CODIGO_ROBOT_2){
                 color = COLOR_ROBOT2;
             }
-            enemigo = new entidad(pos_personajes.get(i), color).getEntidad();
-            this.enemigos.add(enemigo);
-            this.tablero.addEntidad(enemigo);
+            else if ( clasificacion[i] == Controlador.CODIGO_FUEGO ){
+                color = COLOR_FUEGO;
+            }
+
+            personaje = new entidad(pos_personajes.get(i), color).getEntidad();
+            this.personajes.add(personaje);
+            this.tablero.addEntidad(personaje);
         }
 
     }
 
+    /*
     public void setRobots(ArrayList<vector2D> posEnemigos){
 
-        for(Rectangle i: this.enemigos){
+        for(Rectangle i: this.personajes){
             this.tablero.sacarEntidad(i);
         }
 
@@ -116,13 +122,14 @@ public class visual {
             this.tablero.addEntidad(enemigo);
         }
     }
+    */
 
     public void redimencionarJuego(vector2D rang){
 
         this.fondo.getChildren().remove(1);
         this.fondo.getChildren().add(1, this.tablero.getTablero(rang));
         
-        moverPersonaje(new vector2D(rang.getX()/2-1, rang.getY()/2-1));
+//        moverPersonaje(new vector2D(rang.getX()/2-1, rang.getY()/2-1));
 
         escenario.setHeight(350 + rang.getY()*10);
     }

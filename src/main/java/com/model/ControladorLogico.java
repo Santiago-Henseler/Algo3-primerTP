@@ -36,6 +36,7 @@ public class ControladorLogico {
     public ArrayList<vector2D> getPosPersonajes(){
         ArrayList<vector2D> posPersonajes = new ArrayList<vector2D>();
 
+        posPersonajes.add(this.jugador.getPosicion());
         for(EntidadBase i: enemigos)
             posPersonajes.add(i.getPosicion());
 
@@ -43,15 +44,15 @@ public class ControladorLogico {
     }
 
     public int[] getTipoPersonajes(){
-        int[] tipoPersonajes = new int[this.enemigos.size()];
+        int[] tipoPersonajes = new int[this.enemigos.size() + 1];
 
+        tipoPersonajes[0] = this.jugador.tipo();
         for(int i = 0; i < this.enemigos.size(); i++){
-            tipoPersonajes[i] = this.enemigos.get(i).tipo();
+            tipoPersonajes[i + 1] = this.enemigos.get(i).tipo();
         }
 
         return tipoPersonajes;
     }
-
 
     public ArrayList<vector2D> getPosRobots(){
         ArrayList<vector2D> posRobots = new ArrayList<vector2D>();
