@@ -17,6 +17,9 @@ public abstract class Robot extends EntidadBase {
     // Post: Movimiento de robot
     public abstract void movimiento(vector2D posicion_jugador);
 
+    abstract public int tipo();
+
+
     /*
     Pre: EntidadBase valida
     Post: Verdadero si robot muere en colisión.

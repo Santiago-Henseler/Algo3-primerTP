@@ -1,5 +1,7 @@
 package com.model;
 
+import com.Controller.Controlador;
+
 public class jugador extends EntidadBase {
 
     private int safeTp;
@@ -12,6 +14,10 @@ public class jugador extends EntidadBase {
     public Boolean tieneSafeTp(){return safeTp >=1;}
 
     public void movimiento(vector2D vec) {this.getPosicion().setVec(vec); }
+
+    public int tipo(){
+        return Controlador.CODIGO_JUGADOR;
+    }
 
     public void rmSafeTp(){this.safeTp--;}
 

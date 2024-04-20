@@ -12,6 +12,7 @@ public abstract class EntidadBase {
 
     public void setPosicion( vector2D posicion){ this.posicion = posicion; }
 
+    abstract public int tipo();
 
     abstract public boolean colision( EntidadBase entidad );
 

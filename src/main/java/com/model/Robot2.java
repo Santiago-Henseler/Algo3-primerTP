@@ -1,5 +1,7 @@
 package com.model;
 
+import com.Controller.Controlador;
+
 import java.lang.Math;
 
 public class Robot2 extends Robot {
@@ -12,6 +14,10 @@ public class Robot2 extends Robot {
 
     public boolean colision( EntidadBase entidad ){
         return super.colision(entidad);
+    }
+
+    public int tipo(){
+        return Controlador.CODIGO_ROBOT_2;
     }
 
     public void movimiento(vector2D posicion_jugador){

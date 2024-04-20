@@ -46,12 +46,7 @@ public class ControladorLogico {
         int[] tipoPersonajes = new int[this.enemigos.size()];
 
         for(int i = 0; i < this.enemigos.size(); i++){
-            if(this.enemigos.get(i) instanceof Robot1)
-                tipoPersonajes[i] = Controlador.CODIGO_ROBOT_1;
-            else if(this.enemigos.get(i) instanceof Robot2)
-                tipoPersonajes[i] = Controlador.CODIGO_ROBOT_2;
-            else if(this.enemigos.get(i) instanceof fuego)
-                tipoPersonajes[i] = Controlador.CODIGO_FUEGO;
+            tipoPersonajes[i] = this.enemigos.get(i).tipo();
         }
 
         return tipoPersonajes;

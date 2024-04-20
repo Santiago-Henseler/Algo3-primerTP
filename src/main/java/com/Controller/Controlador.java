@@ -16,6 +16,8 @@ public class Controlador {
     static public final int CODIGO_ROBOT_1 = 0;
     static public final int CODIGO_ROBOT_2 = 1;
     static public final int CODIGO_FUEGO = 2;
+    static public final int CODIGO_JUGADOR = 3;
+
     static public final double PROBABILIDAD_ROBOT_2 = 0.2;
 
     static public final int TAMANIO_HORIZONTAL = 20;
