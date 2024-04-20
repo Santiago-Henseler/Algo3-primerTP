@@ -90,6 +90,8 @@ public class ControladorLogico {
     public vector2D tp(){
         vector2D nuevaPos = this.jugador.tp(rango);
         this.actualizarPosicionEnemigos();
+        if (this.revisarColisionJugador())
+            nuevaPos = null;
 
         return nuevaPos;
     }
