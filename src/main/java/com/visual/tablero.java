@@ -2,7 +2,6 @@ package com.visual;
 
 import com.model.vector2D;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
