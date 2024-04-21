@@ -2,6 +2,7 @@ package com.visual;
 
 import java.util.ArrayList;
 import com.Controller.Controlador;
+import com.Controller.Controlador.PERSONAJE;
 import com.model.vector2D;
 
 import javafx.event.ActionEvent;
@@ -55,24 +56,23 @@ public class visual {
     Pre = Lista de posiciones y de enteros valida ( mismo largo e ints correctos )
     Post= Carga personajes en tablero
      */
-    public void setPersonajes( ArrayList<vector2D> pos_personajes, int[] clasificacion){
+    public void setPersonajes( ArrayList<vector2D> pos_personajes, PERSONAJE[] clasificacion){
         // Limpiar todos los personajes
         for(Rectangle i: this.personajes){
             this.tablero.sacarEntidad(i);
         }
 
         // Crear nuevos
-        Rectangle personaje;
-        Color color = COLOR_PERSONAJE;
         for( int i=0; i < pos_personajes.size(); i++ ){
-            if ( clasificacion[i] == Controlador.CODIGO_ROBOT_1)
+            Color color = COLOR_PERSONAJE;
+            if (clasificacion[i] == Controlador.PERSONAJE.ROBOT1)
                 color = COLOR_ROBOT1;
-            else if ( clasificacion[i] == Controlador.CODIGO_ROBOT_2)
+            else if (clasificacion[i] == Controlador.PERSONAJE.ROBOT2)
                 color = COLOR_ROBOT2;
-            else if ( clasificacion[i] == Controlador.CODIGO_FUEGO )
+            else if (clasificacion[i] == Controlador.PERSONAJE.FUEGO)
                 color = COLOR_FUEGO;
 
-            personaje = new entidad(pos_personajes.get(i), color).getEntidad();
+            Rectangle personaje = new entidad(pos_personajes.get(i), color).getEntidad();
             this.personajes.add(personaje);
             this.tablero.addEntidad(personaje);
         }

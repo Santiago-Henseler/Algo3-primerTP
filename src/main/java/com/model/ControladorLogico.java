@@ -2,6 +2,7 @@ package com.model;
 
 import com.Controller.Controlador;
 import com.Controller.Controlador.ESTADOJUEGO;
+import com.Controller.Controlador.PERSONAJE;
 
 import java.util.ArrayList;
 
@@ -60,8 +61,10 @@ public class ControladorLogico {
         return posPersonajes;
     }
 
-    public int[] getTipoPersonajes(){
-        int[] tipoPersonajes = new int[this.enemigos.size() + 1];
+    public int getPuntaje(){return this.puntaje;};
+
+    public PERSONAJE[] getTipoPersonajes(){
+        PERSONAJE[] tipoPersonajes = new PERSONAJE[this.enemigos.size() + 1];
 
         tipoPersonajes[0] = this.jugador.tipo();
         for(int i = 0; i < this.enemigos.size(); i++)
@@ -69,23 +72,6 @@ public class ControladorLogico {
         
         return tipoPersonajes;
     }
-
-    public int getPuntaje(){return this.puntaje;};
-
-    /*
-    public ArrayList<vector2D> getPosRobots(){
-        ArrayList<vector2D> posRobots = new ArrayList<vector2D>();
-
-        for(EntidadBase i: enemigos)
-            if(i instanceof Robot)
-                posRobots.add(i.getPosicion());
-
-        return posRobots;
-    }
-
-    public ArrayList<vector2D> getPosFuegos(){
-        return fuegos;
-    } */
 
     public vector2D hacerJugada(vector2D movimiento){
         // Mover jugador
@@ -142,9 +128,9 @@ public class ControladorLogico {
         }
     }
 
+    // Revisa enemigos que colisionan y elimina los que no, colocando fuego donde si
     private void revisarColisionEnemigos(){
-        // Revisa enemigos que colisionan y elimina los que no, colocando fuego donde si
-
+       
         ArrayList<EntidadBase> eliminados = new ArrayList<EntidadBase>();
         ArrayList<fuego> nuevFuegos = new ArrayList<fuego>();
 
@@ -171,21 +157,6 @@ public class ControladorLogico {
         
         return colisiona;
     }
-
-    /* 
-    public boolean revisarColisionJugador(){
-        boolean colision = false;
-        int index = 0;
-
-        while ( !colision && ( index < this.enemigos.size() ) ){
-            colision = this.jugador.colision( this.enemigos.get(index));
-            if (!colision)
-                index++;
-        }
-
-        return colision;
-    }
-    */
 
     public ESTADOJUEGO estadoJuego(){
 

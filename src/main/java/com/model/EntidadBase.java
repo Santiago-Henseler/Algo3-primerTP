@@ -1,5 +1,7 @@
 package com.model;
 
+import com.Controller.Controlador.PERSONAJE;
+
 public abstract class EntidadBase {
 
     private vector2D posicion;
@@ -12,7 +14,7 @@ public abstract class EntidadBase {
 
     public void setPosicion( vector2D posicion){ this.posicion = posicion; }
 
-    abstract public int tipo();
+    abstract public PERSONAJE tipo();
 
     abstract public boolean colision( EntidadBase entidad );
 

@@ -1,11 +1,10 @@
 package com.model;
 
 import com.Controller.Controlador;
+import com.Controller.Controlador.PERSONAJE;
 
 public class fuego extends EntidadBase {
-    fuego( vector2D posicion ){
-        super(posicion);
-    }
+    fuego( vector2D posicion ){super(posicion);}
 
     public void movimiento(vector2D vec) { return; }
 
@@ -13,12 +12,7 @@ public class fuego extends EntidadBase {
     Pre: EntidadBase valida
     Post: Verdadero si fuego muere en colision
      */
-    public boolean colision( EntidadBase entidad ){
-        return false;
-    }
+    public boolean colision( EntidadBase entidad ){return false;}
 
-    public int tipo(){
-        return Controlador.CODIGO_FUEGO;
-    }
-
+    public PERSONAJE tipo(){return Controlador.PERSONAJE.FUEGO;}
 }

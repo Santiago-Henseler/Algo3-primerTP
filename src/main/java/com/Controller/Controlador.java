@@ -13,11 +13,7 @@ import javafx.scene.shape.Rectangle;
 public class Controlador {
 
     static public enum ESTADOJUEGO{ACTIVO, VICTORIA, DERROTA}
-
-    static public final int CODIGO_ROBOT_1 = 0;
-    static public final int CODIGO_ROBOT_2 = 1;
-    static public final int CODIGO_FUEGO = 2;
-    static public final int CODIGO_JUGADOR = 3;
+    static public enum PERSONAJE{ROBOT1, ROBOT2, FUEGO, JUGADOR}
 
     static public final double PROBABILIDAD_ROBOT_2 = 0.2;
 
@@ -36,14 +32,6 @@ public class Controlador {
         this.score = 0;
     }
 
-    private void redimencionarJuego(vector2D rang){
-
-        this.rang = rang;
-        this.visual.redimencionarJuego(this.rang);
-    
-        this.iniciarJuego(this.rang, 1, 0);
-    }
-
     public void iniciarJuego(vector2D rang, int level, int score){
         
         this.rang = rang;
@@ -56,6 +44,14 @@ public class Controlador {
 
         this.visual.setInfo(this.level, this.score);
         this.setListeners(this.logica);
+    }
+
+    private void redimencionarJuego(vector2D rang){
+
+        this.rang = rang;
+        this.visual.redimencionarJuego(this.rang);
+    
+        this.iniciarJuego(this.rang, 1, 0);
     }
 
     private void setListeners(ControladorLogico cl){

@@ -1,6 +1,7 @@
 package com.model;
 
 import com.Controller.Controlador;
+import com.Controller.Controlador.PERSONAJE;
 
 import java.lang.Math;
 
@@ -8,17 +9,11 @@ public class Robot2 extends Robot {
     private static int DISTANCIA_AVANCE_RAPIDO = 2;
     private static int DISTANCIA_AVANCE_LENTO = 1;
 
-    Robot2( vector2D posicion ){
-        super(posicion);
-    }
+    Robot2( vector2D posicion ){super(posicion);}
 
-    public boolean colision( EntidadBase entidad ){
-        return super.colision(entidad);
-    }
+    public boolean colision( EntidadBase entidad ){return super.colision(entidad);}
 
-    public int tipo(){
-        return Controlador.CODIGO_ROBOT_2;
-    }
+    public PERSONAJE tipo(){return Controlador.PERSONAJE.ROBOT2;}
 
     public void movimiento(vector2D posicion_jugador){
         vector2D delta = vector2D.resta( posicion_jugador, this.getPosicion() );
