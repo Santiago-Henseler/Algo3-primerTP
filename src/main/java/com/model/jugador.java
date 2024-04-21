@@ -5,15 +5,22 @@ import com.Controller.Controlador;
 public class jugador extends EntidadBase {
 
     private int safeTp;
+    private Boolean vida;
 
     public jugador(vector2D posicion){
         super(posicion);
-        this.safeTp = 1;
+        this.vida = true;
     }
 
     public Boolean tieneSafeTp(){return safeTp >=1;}
 
     public void movimiento(vector2D vec) {this.getPosicion().setVec(vec); }
+
+    public Boolean getVida(){return this.vida;};
+
+    public void setVida(Boolean vida){this.vida = vida;};
+
+    public void setSafeTp(int cant){this.safeTp = cant;};
 
     public int tipo(){
         return Controlador.CODIGO_JUGADOR;

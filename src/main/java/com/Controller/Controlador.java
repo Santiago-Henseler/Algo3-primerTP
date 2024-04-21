@@ -1,17 +1,18 @@
 package com.Controller;
 
-import java.util.Vector;
-
 import com.model.ControladorLogico;
 import com.model.vector2D;
 import com.visual.visual;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 public class Controlador {
+
+    static public enum ESTADOJUEGO{ACTIVO, VICTORIA, DERROTA}
 
     static public final int CODIGO_ROBOT_1 = 0;
     static public final int CODIGO_ROBOT_2 = 1;
@@ -26,28 +27,34 @@ public class Controlador {
     private final visual visual;
     private ControladorLogico logica;
     private vector2D rang;
+    private int level;
+    private int score;
 
     public Controlador(visual visual){
         this.visual = visual;
+        this.level = 1;
+        this.score = 0;
     }
 
-    public void redimencionarJuego(vector2D rang){
+    private void redimencionarJuego(vector2D rang){
 
         this.rang = rang;
         this.visual.redimencionarJuego(this.rang);
     
-        iniciarJuego(this.rang);
+        this.iniciarJuego(this.rang, 1, 0);
     }
 
-    public void iniciarJuego(vector2D rang){
+    public void iniciarJuego(vector2D rang, int level, int score){
         
         this.rang = rang;
+        this.level = level;
+        this.score = score;
 
-        this.logica = new ControladorLogico(rang);
+        this.logica = new ControladorLogico(this.rang, this.level);
 
         this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
-//        this.visual.setRobots(this.logica.getPosRobots());
 
+        this.visual.setInfo(this.level, this.score);
         this.setListeners(this.logica);
     }
 
@@ -57,12 +64,14 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                vector2D mov = cl.tp();
+                cl.tp();
 
-                if(cl.estadoJuego())
-                    actualizarVisual(mov);
+                if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
+                    actualizarVisual();
+                else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
+                    iniciarJuego(rang, level+1, score);
                 else
-                    iniciarJuego(rang);
+                    iniciarJuego(rang, 1, 0);
             }
         });
 
@@ -70,12 +79,14 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                vector2D mov = cl.esperarRobots();
+                cl.esperarRobots();
 
-                if(cl.estadoJuego())
-                    actualizarVisual(mov);
+                if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
+                    actualizarVisual();
+                else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
+                    iniciarJuego(rang, level+1, score);
                 else
-                    iniciarJuego(rang);
+                    iniciarJuego(rang, 1, 0);
             }
         });
 
@@ -85,10 +96,15 @@ public class Controlador {
             public void handle(ActionEvent event) {
                 vector2D mov = cl.safeTp();
 
-                if(cl.estadoJuego())
-                    actualizarVisual(mov);
+                if(mov == null)
+                    return;
+
+                if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
+                    actualizarVisual();
+                else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
+                    iniciarJuego(rang, level+1, score);
                 else
-                    iniciarJuego(rang);
+                    iniciarJuego(rang, 1, 0);
             }
         });
 
@@ -101,35 +117,32 @@ public class Controlador {
                 if(target instanceof Rectangle){
                     Rectangle rect = (Rectangle)target;
 
-                    vector2D mov = cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
+                    cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
      
-                    if(cl.estadoJuego())
-                        actualizarVisual(mov);
+                    if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
+                        actualizarVisual();
+                    else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
+                        iniciarJuego(rang, level+1, score);
                     else
-                        iniciarJuego(rang);
+                        iniciarJuego(rang, 1, 0);
                 }
             }
         });
 
-        visual.onOpcionesClick(new EventHandler<MouseEvent>() {
+        visual.onOpcionesClick(new EventHandler<ActionEvent>() {
 
             @Override
-            public void handle(MouseEvent event) {
-                redimencionarJuego(new vector2D(10, 10));
+            public void handle(ActionEvent event) {
+                MenuItem opcion = (MenuItem)event.getTarget();
+                int opcionS = Integer.parseInt(opcion.getId());
+
+                redimencionarJuego(new vector2D(opcionS, opcionS));
             }
         });
     }
 
-    private void actualizarVisual(vector2D mov){
-
-        if(mov != null){
-            this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
-//            visual.setRobots( this.logica.getPosRobots());
-//            visual.setFuego( this.logica.getPosFuegos());
-        }
-        else{
-            // Termino el juego. Deberia haber un menu pero bueno que se yo viste
-            this.iniciarJuego(this.rang);
-        }
+    private void actualizarVisual(){
+        this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
+        this.visual.setInfo(this.level,  this.logica.getPuntaje());
     }
 }
