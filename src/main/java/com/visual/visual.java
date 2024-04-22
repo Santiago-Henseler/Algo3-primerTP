@@ -8,6 +8,7 @@ import com.model.vector2D;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -17,10 +18,10 @@ import javafx.stage.Stage;
 
 public class visual {
 
-    private final Color COLOR_PERSONAJE = Color.RED;
-    private final Color COLOR_ROBOT1 = Color.YELLOW;
-    private final Color COLOR_ROBOT2 = Color.ORANGE;
-    private final Color COLOR_FUEGO = Color.BLACK;
+    private final Image SPRITE_PERSONAJE = new Image("file:src/main/java/com/resourses/Personaje.png");
+    private final Image SPRITE_ROBOT1 = new Image("file:src/main/java/com/resourses/Robot1.png");
+    private final Image SPRITE_ROBOT2 = new Image("file:src/main/java/com/resourses/Robot2.png");
+    private final Image SPRITE_FUEGO = new Image("file:src/main/java/com/resourses/Fuego.png");
 
     private Scene escena;
     private VBox fondo;
@@ -64,15 +65,15 @@ public class visual {
 
         // Crear nuevos
         for( int i=0; i < pos_personajes.size(); i++ ){
-            Color color = COLOR_PERSONAJE;
+            Image sprite = SPRITE_PERSONAJE;
             if (clasificacion[i] == Controlador.PERSONAJE.ROBOT1)
-                color = COLOR_ROBOT1;
+                sprite = SPRITE_ROBOT1;
             else if (clasificacion[i] == Controlador.PERSONAJE.ROBOT2)
-                color = COLOR_ROBOT2;
+                sprite = SPRITE_ROBOT2;
             else if (clasificacion[i] == Controlador.PERSONAJE.FUEGO)
-                color = COLOR_FUEGO;
+                sprite = SPRITE_FUEGO;
 
-            Rectangle personaje = new entidad(pos_personajes.get(i), color).getEntidad();
+            Rectangle personaje = new entidad(pos_personajes.get(i), sprite).getEntidad();
             this.personajes.add(personaje);
             this.tablero.addEntidad(personaje);
         }
