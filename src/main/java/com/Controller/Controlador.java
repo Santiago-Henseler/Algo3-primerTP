@@ -43,7 +43,23 @@ public class Controlador {
         this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
 
         this.visual.setInfo(this.level, this.score);
-        this.setListeners(this.logica);
+        this.setListeners();
+    }
+
+    public void iniciarJuego(vector2D rang){
+        iniciarJuego(rang, 1, 0);
+    }
+
+    private void revisarEstadoJuego(){
+        if(this.logica.estadoJuego() == ESTADOJUEGO.ACTIVO){
+            this.actualizarVisual();
+        }
+        else if(this.logica.estadoJuego() == ESTADOJUEGO.VICTORIA){
+            this.score += this.logica.getPuntaje();
+            this.iniciarJuego(rang, level+1, this.score);
+        }
+        else
+            this.iniciarJuego(rang);
     }
 
     private void redimencionarJuego(vector2D rang){
@@ -51,23 +67,40 @@ public class Controlador {
         this.rang = rang;
         this.visual.redimencionarJuego(this.rang);
     
-        this.iniciarJuego(this.rang, 1, 0);
+        this.iniciarJuego(this.rang);
     }
 
-    private void setListeners(ControladorLogico cl){
+    private void funcionTp(){
+        this.logica.tp();
+        revisarEstadoJuego();
+    }
+
+    private void funcionSafeTp(){
+        vector2D mov = this.logica.safeTp();
+
+        if(mov == null)
+            return;
+
+        revisarEstadoJuego();
+    }
+
+    private void funcionEsperarRobots(){
+        this.logica.esperarRobots();
+        revisarEstadoJuego();
+    }
+
+    private void funcionClickTablero( Rectangle rect ){
+        this.logica.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
+        revisarEstadoJuego();
+    }
+
+    private void setListeners(){
 
         visual.onTpBtnClick(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                cl.tp();
-
-                if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
-                    actualizarVisual();
-                else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
-                    iniciarJuego(rang, level+1, score);
-                else
-                    iniciarJuego(rang, 1, 0);
+                funcionTp();
             }
         });
 
@@ -75,14 +108,7 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                cl.esperarRobots();
-
-                if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
-                    actualizarVisual();
-                else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
-                    iniciarJuego(rang, level+1, score);
-                else
-                    iniciarJuego(rang, 1, 0);
+                funcionEsperarRobots();
             }
         });
 
@@ -90,17 +116,7 @@ public class Controlador {
 
             @Override
             public void handle(ActionEvent event) {
-                vector2D mov = cl.safeTp();
-
-                if(mov == null)
-                    return;
-
-                if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
-                    actualizarVisual();
-                else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
-                    iniciarJuego(rang, level+1, score);
-                else
-                    iniciarJuego(rang, 1, 0);
+                funcionSafeTp();
             }
         });
 
@@ -111,16 +127,7 @@ public class Controlador {
                 Object target =  event.getTarget();
 
                 if(target instanceof Rectangle){
-                    Rectangle rect = (Rectangle)target;
-
-                    cl.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
-     
-                    if(cl.estadoJuego() == ESTADOJUEGO.ACTIVO)
-                        actualizarVisual();
-                    else if(cl.estadoJuego() == ESTADOJUEGO.VICTORIA)
-                        iniciarJuego(rang, level+1, score);
-                    else
-                        iniciarJuego(rang, 1, 0);
+                    funcionClickTablero((Rectangle) target);
                 }
             }
         });
@@ -139,6 +146,6 @@ public class Controlador {
 
     private void actualizarVisual(){
         this.visual.setPersonajes( this.logica.getPosPersonajes(), this.logica.getTipoPersonajes() );
-        this.visual.setInfo(this.level,  this.logica.getPuntaje());
+        this.visual.setInfo(this.level, this.score+ this.logica.getPuntaje());
     }
 }

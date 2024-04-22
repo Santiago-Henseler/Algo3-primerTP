@@ -98,6 +98,7 @@ public class ControladorLogico {
     public vector2D tp(){
         vector2D nuevaPos = this.jugador.tp(rango);
         this.actualizarPosicionEnemigos();
+        this.revisarColisionEnemigos();
 
         Boolean colisiona = this.revisarColision(this.jugador);
 
