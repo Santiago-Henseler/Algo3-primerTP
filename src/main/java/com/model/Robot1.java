@@ -7,7 +7,7 @@ import java.lang.Math;
 
 public class Robot1 extends Robot {
 
-    private static int DISTANCIA_AVANCE = 1;
+    private static final int DISTANCIA_AVANCE = 1;
 
     Robot1( vector2D posicion ){super(posicion);}
 

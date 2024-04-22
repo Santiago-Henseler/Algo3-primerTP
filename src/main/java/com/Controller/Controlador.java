@@ -4,16 +4,17 @@ import com.model.ControladorLogico;
 import com.model.vector2D;
 import com.visual.visual;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+// Imports comentados post modificacion commit "Reducccion de warnings"
+// import javafx.event.ActionEvent;
+// import javafx.event.EventHandler;
+// import javafx.scene.input.MouseEvent;
 
 public class Controlador {
 
-    static public enum ESTADOJUEGO{ACTIVO, VICTORIA, DERROTA}
-    static public enum PERSONAJE{ROBOT1, ROBOT2, FUEGO, JUGADOR}
+    public enum ESTADOJUEGO{ACTIVO, VICTORIA, DERROTA}
+    public enum PERSONAJE{ROBOT1, ROBOT2, FUEGO, JUGADOR}
 
     static public final double PROBABILIDAD_ROBOT_2 = 0.2;
 
@@ -96,51 +97,25 @@ public class Controlador {
 
     private void setListeners(){
 
-        visual.onTpBtnClick(new EventHandler<ActionEvent>() {
+        visual.onTpBtnClick(event -> funcionTp());
 
-            @Override
-            public void handle(ActionEvent event) {
-                funcionTp();
+        visual.onWaitBtnClick(event -> funcionEsperarRobots());
+
+        visual.onSafeTpBtnClick(event -> funcionSafeTp());
+
+        visual.onTableroClick(event -> {
+            Object target =  event.getTarget();
+
+            if(target instanceof Rectangle){
+                funcionClickTablero((Rectangle) target);
             }
         });
 
-        visual.onWaitBtnClick(new EventHandler<ActionEvent>() {
+        visual.onOpcionesClick(event -> {
+            MenuItem opcion = (MenuItem)event.getTarget();
+            int opcionS = Integer.parseInt(opcion.getId());
 
-            @Override
-            public void handle(ActionEvent event) {
-                funcionEsperarRobots();
-            }
-        });
-
-        visual.onSafeTpBtnClick(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                funcionSafeTp();
-            }
-        });
-
-        visual.onTableroClick(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                Object target =  event.getTarget();
-
-                if(target instanceof Rectangle){
-                    funcionClickTablero((Rectangle) target);
-                }
-            }
-        });
-
-        visual.onOpcionesClick(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                MenuItem opcion = (MenuItem)event.getTarget();
-                int opcionS = Integer.parseInt(opcion.getId());
-
-                redimencionarJuego(new vector2D(opcionS, opcionS));
-            }
+            redimencionarJuego(new vector2D(opcionS, opcionS));
         });
     }
 

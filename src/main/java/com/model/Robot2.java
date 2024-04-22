@@ -6,8 +6,8 @@ import com.Controller.Controlador.PERSONAJE;
 import java.lang.Math;
 
 public class Robot2 extends Robot {
-    private static int DISTANCIA_AVANCE_RAPIDO = 2;
-    private static int DISTANCIA_AVANCE_LENTO = 1;
+    private static final int DISTANCIA_AVANCE_RAPIDO = 2;
+    private static final int DISTANCIA_AVANCE_LENTO = 1;
 
     Robot2( vector2D posicion ){super(posicion);}
 

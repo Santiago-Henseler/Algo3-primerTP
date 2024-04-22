@@ -6,7 +6,7 @@ import com.Controller.Controlador.PERSONAJE;
 public class fuego extends EntidadBase {
     fuego( vector2D posicion ){super(posicion);}
 
-    public void movimiento(vector2D vec) { return; }
+    public void movimiento(vector2D vec) {  }
 
     /*
     Pre: EntidadBase valida

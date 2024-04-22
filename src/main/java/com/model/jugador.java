@@ -17,11 +17,11 @@ public class jugador extends EntidadBase {
 
     public void movimiento(vector2D vec) {this.getPosicion().setVec(vec); }
 
-    public Boolean getVida(){return this.vida;};
+    public Boolean getVida(){return this.vida;}
 
-    public void setVida(Boolean vida){this.vida = vida;};
+    public void setVida(Boolean vida){this.vida = vida;}
 
-    public void setSafeTp(int cant){this.safeTp = cant;};
+    public void setSafeTp(int cant){this.safeTp = cant;}
 
     public PERSONAJE tipo(){return Controlador.PERSONAJE.JUGADOR;}
 

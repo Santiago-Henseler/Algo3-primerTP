@@ -20,7 +20,7 @@ public class ControladorLogico {
         this.jugador = new jugador(new vector2D(rango.getX()/2 -1, rango.getY()/2 -1));
         this.jugador.setSafeTp(level);
 
-        this.enemigos = new ArrayList<EntidadBase>();
+        this.enemigos = new ArrayList<>();
 
         this.puntaje = 0;
         this.totRobots = rango.getX()/2; 
@@ -52,7 +52,7 @@ public class ControladorLogico {
     }
 
     public ArrayList<vector2D> getPosPersonajes(){
-        ArrayList<vector2D> posPersonajes = new ArrayList<vector2D>();
+        ArrayList<vector2D> posPersonajes = new ArrayList<>();
 
         posPersonajes.add(this.jugador.getPosicion());
         for(EntidadBase i: enemigos)
@@ -61,7 +61,7 @@ public class ControladorLogico {
         return posPersonajes;
     }
 
-    public int getPuntaje(){return this.puntaje;};
+    public int getPuntaje(){return this.puntaje;}
 
     public PERSONAJE[] getTipoPersonajes(){
         PERSONAJE[] tipoPersonajes = new PERSONAJE[this.enemigos.size() + 1];
@@ -83,7 +83,7 @@ public class ControladorLogico {
         this.actualizarPosicionEnemigos();
         this.revisarColisionEnemigos();
 
-        Boolean colisiona = this.revisarColision(this.jugador);
+        boolean colisiona = this.revisarColision(this.jugador);
 
         if(colisiona)
             this.jugador.setVida(false);
@@ -100,7 +100,7 @@ public class ControladorLogico {
         this.actualizarPosicionEnemigos();
         this.revisarColisionEnemigos();
 
-        Boolean colisiona = this.revisarColision(this.jugador);
+        boolean colisiona = this.revisarColision(this.jugador);
 
         if(colisiona)
             this.jugador.setVida(false);
@@ -132,8 +132,8 @@ public class ControladorLogico {
     // Revisa enemigos que colisionan y elimina los que no, colocando fuego donde si
     private void revisarColisionEnemigos(){
        
-        ArrayList<EntidadBase> eliminados = new ArrayList<EntidadBase>();
-        ArrayList<fuego> nuevFuegos = new ArrayList<fuego>();
+        ArrayList<EntidadBase> eliminados = new ArrayList<>();
+        ArrayList<fuego> nuevFuegos = new ArrayList<>();
 
         for (EntidadBase i: this.enemigos)
             if (revisarColision(i)){
@@ -148,12 +148,12 @@ public class ControladorLogico {
 
     private boolean revisarColision(EntidadBase e){
         
-        Boolean colisiona = false;
+        boolean colisiona = false;
 
         for(EntidadBase i: this.enemigos){
             if(e == i)
                 continue;
-            colisiona = e.colision(i) ? true:colisiona;
+            colisiona = e.colision(i) || colisiona;
         }
         
         return colisiona;
