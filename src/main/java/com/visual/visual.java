@@ -19,7 +19,9 @@ import javafx.stage.Stage;
 public class visual {
 
     private final Image SPRITE_PERSONAJE = new Image("file:src/main/java/com/resourses/Personaje.png");
+    private final Color COLOR_PERSONAJE = Color.valueOf("#000000");
     private final Image SPRITE_ROBOT1 = new Image("file:src/main/java/com/resourses/Robot1.png");
+    private final Color COLOR_ENEMIGO = Color.valueOf("#D35400");
     private final Image SPRITE_ROBOT2 = new Image("file:src/main/java/com/resourses/Robot2.png");
     private final Image SPRITE_FUEGO = new Image("file:src/main/java/com/resourses/Fuego.png");
 
@@ -66,14 +68,22 @@ public class visual {
         // Crear nuevos
         for( int i=0; i < pos_personajes.size(); i++ ){
             Image sprite = SPRITE_PERSONAJE;
-            if (clasificacion[i] == Controlador.PERSONAJE.ROBOT1)
+            Color borde = COLOR_PERSONAJE;
+            if (clasificacion[i] == Controlador.PERSONAJE.ROBOT1){
                 sprite = SPRITE_ROBOT1;
-            else if (clasificacion[i] == Controlador.PERSONAJE.ROBOT2)
+                borde = COLOR_ENEMIGO;
+            }
+            else if (clasificacion[i] == Controlador.PERSONAJE.ROBOT2){
                 sprite = SPRITE_ROBOT2;
-            else if (clasificacion[i] == Controlador.PERSONAJE.FUEGO)
+                borde = COLOR_ENEMIGO;
+            }
+            else if (clasificacion[i] == Controlador.PERSONAJE.FUEGO){
                 sprite = SPRITE_FUEGO;
+                borde = COLOR_ENEMIGO;
+            }
+                
 
-            Rectangle personaje = new entidad(pos_personajes.get(i), sprite).getEntidad();
+            Rectangle personaje = new entidad(pos_personajes.get(i), sprite, borde).getEntidad();
             this.personajes.add(personaje);
             this.tablero.addEntidad(personaje);
         }

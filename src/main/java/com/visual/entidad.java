@@ -11,11 +11,11 @@ public class entidad {
 
     Rectangle entidad;
 
-    public entidad(vector2D rang, Image img){
+    public entidad(vector2D rang, Image img, Color borde){
         this.entidad = new Rectangle(15, 15);
         this.entidad.setX(rang.getX());
         this.entidad.setY(rang.getY());
-        this.entidad.setStroke(Color.BLACK);
+        this.entidad.setStroke(borde);
         this.entidad.setFill(new ImagePattern(img));
     }
 
