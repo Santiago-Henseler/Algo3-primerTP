@@ -1,6 +1,6 @@
 package com.visual;
 
-import com.model.vector2D;
+import com.model.Vector2D;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,11 +8,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class tablero {
+public class Tablero {
 
     GridPane tablero;
 
-    public GridPane getTablero(vector2D dim){
+    public GridPane getTablero(Vector2D dim){
         this.tablero = new GridPane();
 
         this.tablero.setStyle("-fx-background-color:#E5E7E9");

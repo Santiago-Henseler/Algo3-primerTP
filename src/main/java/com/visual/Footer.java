@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 
-public class footer {
+public class Footer {
 
     Button tpButton;
     Button tpSafeButton;

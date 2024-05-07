@@ -1,7 +1,6 @@
 package com.model;
 
-import com.Controller.Controlador;
-import com.Controller.Controlador.PERSONAJE;
+import com.model.ControladorLogico.PERSONAJE;
 
 import java.lang.Math;
 
@@ -9,14 +8,14 @@ public class Robot2 extends Robot {
     private static final int DISTANCIA_AVANCE_RAPIDO = 2;
     private static final int DISTANCIA_AVANCE_LENTO = 1;
 
-    Robot2( vector2D posicion ){super(posicion);}
+    Robot2( Vector2D posicion ){super(posicion);}
 
     public boolean colision( EntidadBase entidad ){return super.colision(entidad);}
 
-    public PERSONAJE tipo(){return Controlador.PERSONAJE.ROBOT2;}
+    public PERSONAJE tipo(){return PERSONAJE.ROBOT2;}
 
-    public void movimiento(vector2D posicion_jugador){
-        vector2D delta = vector2D.resta( posicion_jugador, this.getPosicion() );
+    public void movimiento(Vector2D posicion_jugador){
+        Vector2D delta = Vector2D.resta( posicion_jugador, this.getPosicion() );
 
         // Calcular distancia a moverse en ambos ejes
         int aniadir_x = 0; int aniadir_y = 0;
@@ -42,6 +41,6 @@ public class Robot2 extends Robot {
         aniadir_x = ( delta.getX() > 0) ? aniadir_x : -aniadir_x  ;
         aniadir_y = ( delta.getY() > 0) ? aniadir_y : -aniadir_y  ;
 
-        super.setPosicion(vector2D.suma(new vector2D(aniadir_x, aniadir_y), this.getPosicion()));
+        super.setPosicion(Vector2D.suma(new Vector2D(aniadir_x, aniadir_y), this.getPosicion()));
     }
 }

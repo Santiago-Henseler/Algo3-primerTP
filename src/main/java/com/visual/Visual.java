@@ -1,9 +1,8 @@
 package com.visual;
 
 import java.util.ArrayList;
-import com.Controller.Controlador;
-import com.Controller.Controlador.PERSONAJE;
-import com.model.vector2D;
+import com.model.ControladorLogico.PERSONAJE;
+import com.model.Vector2D;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
-public class visual {
+public class Visual {
 
     private final Image SPRITE_PERSONAJE = new Image("file:src/main/java/com/resourses/Personaje.png");
     private final Color COLOR_PERSONAJE = Color.valueOf("#000000");
@@ -27,19 +26,19 @@ public class visual {
 
     private Scene escena;
     private VBox fondo;
-    private header header;
-    private tablero tablero;
-    private footer footer;
+    private Header header;
+    private Tablero tablero;
+    private Footer footer;
     private Stage escenario;
     private ArrayList<Rectangle> personajes;
 
-    public visual(Stage escenario, vector2D rang){
+    public Visual(Stage escenario, Vector2D rang){
 
         this.escenario = escenario;
 
-        this.header = new header();
-        this.tablero = new tablero();
-        this.footer = new footer();
+        this.header = new Header();
+        this.tablero = new Tablero();
+        this.footer = new Footer();
 
         this.fondo = new VBox(this.header.getHeader());
         this.fondo.setStyle("-fx-background-color:#D6DBDF");
@@ -59,7 +58,7 @@ public class visual {
     Pre = Lista de posiciones y de enteros valida ( mismo largo e ints correctos )
     Post= Carga personajes en tablero
      */
-    public void setPersonajes( ArrayList<vector2D> pos_personajes, PERSONAJE[] clasificacion){
+    public void setPersonajes( ArrayList<Vector2D> pos_personajes, PERSONAJE[] clasificacion){
         // Limpiar todos los personajes
         for(Rectangle i: this.personajes){
             this.tablero.sacarEntidad(i);
@@ -69,21 +68,21 @@ public class visual {
         for( int i=0; i < pos_personajes.size(); i++ ){
             Image sprite = SPRITE_PERSONAJE;
             Color borde = COLOR_PERSONAJE;
-            if (clasificacion[i] == Controlador.PERSONAJE.ROBOT1){
+            if (clasificacion[i] == PERSONAJE.ROBOT1){
                 sprite = SPRITE_ROBOT1;
                 borde = COLOR_ENEMIGO;
             }
-            else if (clasificacion[i] == Controlador.PERSONAJE.ROBOT2){
+            else if (clasificacion[i] == PERSONAJE.ROBOT2){
                 sprite = SPRITE_ROBOT2;
                 borde = COLOR_ENEMIGO;
             }
-            else if (clasificacion[i] == Controlador.PERSONAJE.FUEGO){
+            else if (clasificacion[i] == PERSONAJE.FUEGO){
                 sprite = SPRITE_FUEGO;
                 borde = COLOR_ENEMIGO;
             }
                 
 
-            Rectangle personaje = new entidad(pos_personajes.get(i), sprite, borde).getEntidad();
+            Rectangle personaje = new Entidad(pos_personajes.get(i), sprite, borde).getEntidad();
             this.personajes.add(personaje);
             this.tablero.addEntidad(personaje);
         }
@@ -93,7 +92,7 @@ public class visual {
         this.header.setLvlScore(lvl, score);
     }
 
-    public void redimencionarJuego(vector2D rang){
+    public void redimensionarJuego(Vector2D rang){
 
         this.fondo.getChildren().remove(1);
         this.fondo.getChildren().add(1, this.tablero.getTablero(rang));

@@ -1,23 +1,24 @@
 package com.model;
 
-import com.Controller.Controlador;
-import com.Controller.Controlador.ESTADOJUEGO;
-import com.Controller.Controlador.PERSONAJE;
-
 import java.util.ArrayList;
 
 public class ControladorLogico {
-    
-    private final vector2D rango;
+
+    static public enum ESTADOJUEGO{ACTIVO, VICTORIA, DERROTA}
+    static public enum PERSONAJE{ROBOT1, ROBOT2, FUEGO, JUGADOR}
+
+    public final double PROBABILIDAD_ROBOT_2 = 0.2;
+ 
+    private final Vector2D rango;
     private final ArrayList<EntidadBase> enemigos;
-    private final jugador jugador;
+    private final Jugador jugador;
 
     private int puntaje;
     private int totRobots;
 
-    public ControladorLogico(vector2D rango, int level){
+    public ControladorLogico(Vector2D rango, int level){
         this.rango = rango;
-        this.jugador = new jugador(new vector2D(rango.getX()/2 -1, rango.getY()/2 -1));
+        this.jugador = new Jugador(new Vector2D(rango.getX()/2 -1, rango.getY()/2 -1));
         this.jugador.setSafeTp(level);
 
         this.enemigos = new ArrayList<>();
@@ -28,7 +29,7 @@ public class ControladorLogico {
         
         for ( int i = 0; i <  rango.getX()/2 ; i++){
 
-            int tipo = Math.random() < Controlador.PROBABILIDAD_ROBOT_2*level?1:0;
+            int tipo = Math.random() < this.PROBABILIDAD_ROBOT_2*level?1:0;
 
             this.enemigos.add(setRobot(tipo));
 
@@ -41,18 +42,18 @@ public class ControladorLogico {
         x_robot = (int) Math.round(Math.random()*(rango.getX()-1));
         y_robot = (int) Math.round(Math.random()*(rango.getY()-1));
 
-        vector2D pos = new vector2D( x_robot, y_robot );
+        Vector2D pos = new Vector2D( x_robot, y_robot );
 
         EntidadBase nuevoRobot = tipo == 0?new Robot1(pos):new Robot2(pos); 
 
-        if(revisarColision(nuevoRobot) || pos.esIgual(new vector2D(rango.getX()/2 -1, rango.getY()/2 -1)))
+        if(revisarColision(nuevoRobot) || pos.esIgual(new Vector2D(rango.getX()/2 -1, rango.getY()/2 -1)))
             return setRobot(tipo);
 
         return nuevoRobot;
     }
 
-    public ArrayList<vector2D> getPosPersonajes(){
-        ArrayList<vector2D> posPersonajes = new ArrayList<>();
+    public ArrayList<Vector2D> getPosPersonajes(){
+        ArrayList<Vector2D> posPersonajes = new ArrayList<>();
 
         posPersonajes.add(this.jugador.getPosicion());
         for(EntidadBase i: enemigos)
@@ -73,10 +74,10 @@ public class ControladorLogico {
         return tipoPersonajes;
     }
 
-    public vector2D hacerJugada(vector2D movimiento){
+    public Vector2D hacerJugada(Vector2D movimiento){
         // Mover jugador
-        vector2D dReescalado = vector2D.reescalarDistancia(movimiento, this.jugador.getPosicion());
-        vector2D nuevaPosicion = vector2D.suma(this.jugador.getPosicion(), dReescalado);
+        Vector2D dReescalado = Vector2D.reescalarDistancia(movimiento, this.jugador.getPosicion());
+        Vector2D nuevaPosicion = Vector2D.suma(this.jugador.getPosicion(), dReescalado);
         jugador.movimiento(nuevaPosicion);
 
         // Logica del juego
@@ -91,12 +92,12 @@ public class ControladorLogico {
         return colisiona?null:nuevaPosicion;
     }
 
-    public vector2D esperarRobots(){
+    public Vector2D esperarRobots(){
         return this.hacerJugada(this.jugador.getPosicion());
     }
 
-    public vector2D tp(){
-        vector2D nuevaPos = this.jugador.tp(rango);
+    public Vector2D tp(){
+        Vector2D nuevaPos = this.jugador.tp(rango);
         this.actualizarPosicionEnemigos();
         this.revisarColisionEnemigos();
 
@@ -108,12 +109,12 @@ public class ControladorLogico {
         return colisiona?null:nuevaPos;
     }
 
-    public vector2D safeTp(){
+    public Vector2D safeTp(){
 
         if(!this.jugador.tieneSafeTp())
             return null;
 
-        vector2D nuevaPos = this.jugador.tp(this.rango);
+        Vector2D nuevaPos = this.jugador.tp(this.rango);
 
         if(revisarColision(jugador))
             return this.safeTp();
@@ -133,12 +134,12 @@ public class ControladorLogico {
     private void revisarColisionEnemigos(){
        
         ArrayList<EntidadBase> eliminados = new ArrayList<>();
-        ArrayList<fuego> nuevFuegos = new ArrayList<>();
+        ArrayList<Fuego> nuevFuegos = new ArrayList<>();
 
         for (EntidadBase i: this.enemigos)
             if (revisarColision(i)){
                 eliminados.add(i);
-                nuevFuegos.add(new fuego(i.getPosicion()));
+                nuevFuegos.add(new Fuego(i.getPosicion()));
             }
 
         this.puntaje += eliminados.size();

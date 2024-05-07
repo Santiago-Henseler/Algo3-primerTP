@@ -1,19 +1,19 @@
 package com.model;
 
-import com.Controller.Controlador.PERSONAJE;
+import com.model.ControladorLogico.PERSONAJE;
 
 public abstract class Robot extends EntidadBase {
 
     static public final double TANGENTE_22_5 = 0.41;
     static public final double TANGENTE_67_5 = 2.41;
 
-    Robot( vector2D posicion){super(posicion);}
+    Robot( Vector2D posicion){super(posicion);}
 
-    public void setPosicion( vector2D posicion){super.setPosicion(posicion);}
+    public void setPosicion( Vector2D posicion){super.setPosicion(posicion);}
 
     // Pre: Posicion de jugador valida
     // Post: Movimiento de robot
-    public abstract void movimiento(vector2D posicion_jugador);
+    public abstract void movimiento(Vector2D posicion_jugador);
 
     abstract public PERSONAJE tipo();
 
@@ -22,7 +22,7 @@ public abstract class Robot extends EntidadBase {
     Post: Verdadero si robot muere en colisión.
      */
     public boolean colision( EntidadBase entidad ){
-        if ( entidad instanceof jugador )
+        if ( entidad instanceof Jugador )
             return false;
         else
             return super.getPosicion().esIgual( entidad.getPosicion() ) ;

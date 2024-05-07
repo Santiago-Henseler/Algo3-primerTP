@@ -1,39 +1,28 @@
 package com.Controller;
 
 import com.model.ControladorLogico;
-import com.model.vector2D;
-import com.visual.visual;
+import com.model.ControladorLogico.ESTADOJUEGO;
+import com.model.Vector2D;
+import com.visual.Visual;
 
 import javafx.scene.control.MenuItem;
 import javafx.scene.shape.Rectangle;
-// Imports comentados post modificacion commit "Reducccion de warnings"
-// import javafx.event.ActionEvent;
-// import javafx.event.EventHandler;
-// import javafx.scene.input.MouseEvent;
 
 public class Controlador {
 
-    public enum ESTADOJUEGO{ACTIVO, VICTORIA, DERROTA}
-    public enum PERSONAJE{ROBOT1, ROBOT2, FUEGO, JUGADOR}
-
-    static public final double PROBABILIDAD_ROBOT_2 = 0.2;
-
-    static public final int TAMANIO_HORIZONTAL = 20;
-    static public final int TAMANIO_VERTICAL = 20;
-
-    private final visual visual;
+    private final Visual visual;
     private ControladorLogico logica;
-    private vector2D rang;
+    private Vector2D rang;
     private int level;
     private int score;
 
-    public Controlador(visual visual){
+    public Controlador(Visual visual){
         this.visual = visual;
         this.level = 1;
         this.score = 0;
     }
 
-    public void iniciarJuego(vector2D rang, int level, int score){
+    public void iniciarJuego(Vector2D rang, int level, int score){
         
         this.rang = rang;
         this.level = level;
@@ -47,7 +36,7 @@ public class Controlador {
         this.setListeners();
     }
 
-    public void iniciarJuego(vector2D rang){
+    public void iniciarJuego(Vector2D rang){
         iniciarJuego(rang, 1, 0);
     }
 
@@ -63,10 +52,10 @@ public class Controlador {
             this.iniciarJuego(rang);
     }
 
-    private void redimencionarJuego(vector2D rang){
+    private void redimensionarJuego(Vector2D rang){
 
         this.rang = rang;
-        this.visual.redimencionarJuego(this.rang);
+        this.visual.redimensionarJuego(this.rang);
     
         this.iniciarJuego(this.rang);
     }
@@ -77,11 +66,7 @@ public class Controlador {
     }
 
     private void funcionSafeTp(){
-        vector2D mov = this.logica.safeTp();
-
-        if(mov == null)
-            return;
-
+        this.logica.safeTp();
         revisarEstadoJuego();
     }
 
@@ -91,7 +76,7 @@ public class Controlador {
     }
 
     private void funcionClickTablero( Rectangle rect ){
-        this.logica.hacerJugada(new vector2D((int)rect.getX(), (int)rect.getY()));
+        this.logica.hacerJugada(new Vector2D((int)rect.getX(), (int)rect.getY()));
         revisarEstadoJuego();
     }
 
@@ -115,7 +100,7 @@ public class Controlador {
             MenuItem opcion = (MenuItem)event.getTarget();
             int opcionS = Integer.parseInt(opcion.getId());
 
-            redimencionarJuego(new vector2D(opcionS, opcionS));
+            redimensionarJuego(new Vector2D(opcionS, opcionS));
         });
     }
 

@@ -4,15 +4,18 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import com.Controller.Controlador;
-import com.model.vector2D;
-import com.visual.visual;
+import com.model.Vector2D;
+import com.visual.Visual;
 
 public class App extends Application {
 
+    static public final int TAMANIO_HORIZONTAL = 20;
+    static public final int TAMANIO_VERTICAL = 20;
+
     @Override
     public void start(Stage stage){
-        vector2D rang = new vector2D(Controlador.TAMANIO_HORIZONTAL, Controlador.TAMANIO_VERTICAL);
-        visual visual = new visual(stage, rang);
+        Vector2D rang = new Vector2D(TAMANIO_HORIZONTAL, TAMANIO_VERTICAL);
+        Visual visual = new Visual(stage, rang);
         Controlador controlador = new Controlador(visual);
         controlador.iniciarJuego(rang);
     }

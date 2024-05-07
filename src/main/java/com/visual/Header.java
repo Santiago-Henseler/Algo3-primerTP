@@ -7,7 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 
-public class header {
+public class Header {
 
     Label label;
     BorderPane header;
