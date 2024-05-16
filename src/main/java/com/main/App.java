@@ -1,26 +1,23 @@
 package com.main;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import com.Controller.Controlador;
+import com.model.Vector2D;
+import com.visual.Visual;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
-    private static Scene scene;
+    static public final int TAMANIO_HORIZONTAL = 20;
+    static public final int TAMANIO_VERTICAL = 20;
 
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
-        scene = new Scene(fxmlLoader.load(), 640, 480);
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage){
+        Vector2D rang = new Vector2D(TAMANIO_HORIZONTAL, TAMANIO_VERTICAL);
+        Visual visual = new Visual(stage, rang);
+        Controlador controlador = new Controlador(visual);
+        controlador.iniciarJuego(rang);
     }
 
     public static void main(String[] args) {
